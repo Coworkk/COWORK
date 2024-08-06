@@ -1,8 +1,7 @@
-package com.COWORK.COWORKING.models;
+package com.COWORK.COWORKING.data.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 
 import java.util.Set;
 

@@ -1,8 +1,7 @@
-package com.COWORK.COWORKING.models;
+package com.COWORK.COWORKING.data.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
