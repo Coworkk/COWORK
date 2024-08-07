@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @GeneratedValue
-    private Long notificationId;
+    private Long notificationId; // be sure to confirm about id issue in the database
     @ManyToOne
     private User user;
     private LocalDateTime notificationDate;
     private LocalDateTime dateUpdated;
+    private boolean isRead; // new addition to the model
 }

@@ -42,13 +42,13 @@ public class TaskServiceTest {
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
-    public void taskIsCreated_WithNonExistentProject_ThrowsExceptionTest() {
+    public void createTask_WithNonExistentProject_ThrowsExceptionTest() {
         CreateTaskRequest createTaskRequest = new CreateTaskRequest();
         createTaskRequest.setTitle("Integrate payment gateway");
         createTaskRequest.setDescription("Set up payment gateway to handle refunds, chargebacks, and transaction disputes");
         createTaskRequest.setStartDate(now());
         createTaskRequest.setDueDate(now()); // change the dates later
-        createTaskRequest.setProjectId(800L);
+        createTaskRequest.setProjectId(1500L);
         createTaskRequest.setPriority(URGENT);
 
         assertThrows(ProjectNotFoundException.class,()->taskService.createTask(createTaskRequest));
@@ -66,8 +66,8 @@ public class TaskServiceTest {
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
-    public void viewNonExistingTask_ThrowsExceptionTest() {
-        assertThrows(TaskNotFoundException.class, ()->taskService.viewTask(800L));
+    public void viewNonExistentTask_ThrowsExceptionTest() {
+        assertThrows(TaskNotFoundException.class, ()->taskService.viewTask(1500L));
     }
 
     @Test
@@ -76,23 +76,34 @@ public class TaskServiceTest {
         List<ViewTaskResponse> viewAllProjectTasks = taskService.viewAllProjectTasks(200L);
 
         assertThat(viewAllProjectTasks).isNotNull();
-        assertThat(viewAllProjectTasks.size()).isEqualTo(1);
-
+        assertThat(viewAllProjectTasks.size()).isEqualTo(2);
     }
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void viewAllNonExistentProjectTasks_ThrowsExceptionTest() {
-        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllProjectTasks(800L));
+        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllProjectTasks(1500L));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllUserTasksTest() {
+
     }
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void deleteTaskTest() {
-        String message = taskService.deleteTask(300L);
+        String message = taskService.deleteTask(303L);
 
         assertThat(message).isNotNull();
         assertThat(message).contains("success");
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void deleteNonExistentTask_ThrowsExceptionTest() {
+        assertThrows(TaskNotFoundException.class, ()->taskService.deleteTask(1500L));
     }
 
 }

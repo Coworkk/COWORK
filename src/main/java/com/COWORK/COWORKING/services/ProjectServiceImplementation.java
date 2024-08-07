@@ -16,6 +16,6 @@ public class ProjectServiceImplementation implements ProjectService{
     public Project findProjectById(Long projectId) {
         return projectRepository.findById(projectId)
                 .orElseThrow(()->new ProjectNotFoundException
-                        (String.format("Project with %d not found", projectId)));
+                        (String.format("Project with id %d not found", projectId)));
     }
 }

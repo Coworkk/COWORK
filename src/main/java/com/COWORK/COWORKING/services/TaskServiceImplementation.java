@@ -23,7 +23,6 @@ public class TaskServiceImplementation implements TaskService{
 
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
-
     private ProjectService projectService;
 
     @Autowired
@@ -48,16 +47,22 @@ public class TaskServiceImplementation implements TaskService{
         taskRepository.save(task);
         CreateTaskResponse createTaskResponse = modelMapper.map(task, CreateTaskResponse.class);
         createTaskResponse.setMessage("Task created successfully");
+        System.out.println(createTaskResponse);
         return createTaskResponse;
+    }
+
+    @Override
+    public Task findTaskById(Long taskId) {
+        return taskRepository.findById(taskId)
+                .orElseThrow(()-> new TaskNotFoundException
+                        (String.format("Task with id %d not found", taskId)));
     }
 
     @Override
     public ViewTaskResponse viewTask(Long taskId) {
         Task task = findTaskById(taskId);
         System.out.println(task); //remove later
-        ViewTaskResponse viewTaskResponse = new ViewTaskResponse();
-        viewTaskResponse.setTaskId(taskId);
-        return viewTaskResponse;
+        return modelMapper.map(task, ViewTaskResponse.class);
     }
 
     @Override
@@ -69,13 +74,10 @@ public class TaskServiceImplementation implements TaskService{
     }
 
     @Override
-    public String deleteTask(Long projectId) {
-        return null;
+    public String deleteTask(Long taskId) {
+        Task task = findTaskById(taskId);
+        taskRepository.delete(task);
+        return "Task deleted successfully";
     }
 
-    private Task findTaskById(Long taskId) {
-        return taskRepository.findById(taskId)
-                .orElseThrow(()-> new TaskNotFoundException
-                        (String.format("Task with %d not found", taskId)));
-    }
 }
