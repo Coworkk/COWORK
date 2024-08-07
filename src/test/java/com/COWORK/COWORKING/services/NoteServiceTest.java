@@ -62,7 +62,7 @@ public class NoteServiceTest {
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void deleteNoteTest() {
-        String message = noteService.deleteNote(503L);
+        String message = noteService.deleteNote(502L);
 
         assertThat(message).isNotNull();
         assertTrue(message.contains("success"));

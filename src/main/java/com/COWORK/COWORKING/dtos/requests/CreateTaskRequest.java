@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class CreateTaskRequest {
     private String title;
     private String description;
-    private Status status;
     @JsonSerialize(using = JsonSerializer.class)
     @JsonDeserialize(using = JsonDeserializer.class)
     private LocalDateTime startDate;

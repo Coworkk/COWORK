@@ -9,14 +9,16 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
-public class CreateTaskResponse {
+@Setter
+public class UpdateTaskResponse {
     private Long taskId;
     private String message;
     @JsonSerialize(using = JsonSerializer.class)
     @JsonDeserialize(using = JsonDeserializer.class)
-    private LocalDateTime dateCreated;
+    private LocalDateTime dateUpdated;
     private Long projectId;
+    private String title;
+    private String description;
 
 }

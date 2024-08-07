@@ -2,9 +2,15 @@ package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.models.Task;
+import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.TaskRepository;
+import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
+import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
 import com.COWORK.COWORKING.exceptions.TaskNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +53,15 @@ public class TaskServiceImplementation implements TaskService{
         taskRepository.save(task);
         CreateTaskResponse createTaskResponse = modelMapper.map(task, CreateTaskResponse.class);
         createTaskResponse.setMessage("Task created successfully");
-        System.out.println(createTaskResponse);
+        System.out.println(createTaskResponse); // remove later
         return createTaskResponse;
+    }
+
+    @Override
+    public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) {
+        Task task = findTaskById(updateTaskRequest.getTaskId());
+
+        return null;
     }
 
     @Override
@@ -56,6 +69,16 @@ public class TaskServiceImplementation implements TaskService{
         return taskRepository.findById(taskId)
                 .orElseThrow(()-> new TaskNotFoundException
                         (String.format("Task with id %d not found", taskId)));
+    }
+
+    @Override
+    public AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest) {
+        Task task = findTaskById(assignTaskRequest.getTaskId());
+        User user = null; // validate user
+        task.setUser(user);
+        AssignTaskResponse assignTaskResponse = modelMapper.map(user, AssignTaskResponse.class);
+        assignTaskResponse.setMessage("User successfully assigned to task");
+        return assignTaskResponse;
     }
 
     @Override
@@ -70,7 +93,25 @@ public class TaskServiceImplementation implements TaskService{
         projectService.findProjectById(projectId);
         List<Task> tasks = taskRepository.findTaskByProjectId(projectId);
         return tasks.stream()
-                .map(taskItem -> modelMapper.map(taskItem, ViewTaskResponse.class)).toList();
+                .map(projectTask -> modelMapper.map(projectTask, ViewTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewTaskResponse> viewAllUserTasks(Long userId) {
+        //validate User
+        List<Task> tasks = taskRepository.findTaskByUserId(userId);
+        return tasks.stream()
+                .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewTaskResponse> viewAllUserTasksInProject(ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest) {
+        projectService.findProjectById(viewAllUserTasksInProjectRequest.getProjectId());
+        //User user =
+        List<Task> tasks = taskRepository.findTaskByUserIdAndProjectId(
+                viewAllUserTasksInProjectRequest.getUserId(), viewAllUserTasksInProjectRequest.getProjectId());
+        return tasks.stream()
+                .map(userTaskInProject -> modelMapper.map(userTaskInProject, ViewTaskResponse.class)).toList();
     }
 
     @Override

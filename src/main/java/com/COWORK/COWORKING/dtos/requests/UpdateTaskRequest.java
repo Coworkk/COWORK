@@ -1,5 +1,6 @@
-package com.COWORK.COWORKING.dtos.responses;
+package com.COWORK.COWORKING.dtos.requests;
 
+import com.COWORK.COWORKING.data.models.Priority;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,12 +12,15 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class CreateTaskResponse {
+public class UpdateTaskRequest {
     private Long taskId;
-    private String message;
+    private String title;
+    private String description;
     @JsonSerialize(using = JsonSerializer.class)
     @JsonDeserialize(using = JsonDeserializer.class)
-    private LocalDateTime dateCreated;
-    private Long projectId;
-
+    private LocalDateTime startDate;
+    @JsonSerialize(using = JsonSerializer.class)
+    @JsonDeserialize(using = JsonDeserializer.class)
+    private LocalDateTime dueDate;
+    private Priority priority;
 }

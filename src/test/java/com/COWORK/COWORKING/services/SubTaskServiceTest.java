@@ -69,7 +69,7 @@ public class SubTaskServiceTest {
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void deleteSubTaskTest() {
-        String message = subTaskService.deleteSubTask(403L);
+        String message = subTaskService.deleteSubTask(402L);
 
         assertThat(message).isNotNull();
         assertTrue(message.contains("success"));

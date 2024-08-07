@@ -1,7 +1,12 @@
 package com.COWORK.COWORKING.services;
 
+import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
+import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
 import com.COWORK.COWORKING.exceptions.ProjectNotFoundException;
 import com.COWORK.COWORKING.exceptions.TaskNotFoundException;
@@ -56,6 +61,64 @@ public class TaskServiceTest {
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
+    public void updateTaskTest() {
+        UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
+        updateTaskRequest.setTaskId(300L);
+        updateTaskRequest.setTitle("blaa");
+        UpdateTaskResponse updateTaskResponse = taskService.updateTask(updateTaskRequest);
+
+        assertThat(updateTaskResponse).isNotNull();
+        assertThat(updateTaskResponse.getTitle()).isEqualTo("blaa");
+        assertThat(updateTaskResponse.getDescription()).isEqualTo("Set up user voice assistant");
+
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void updateNonExistentTask_ThrowsExceptionTest() {
+        UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
+        updateTaskRequest.setTaskId(300L);
+        updateTaskRequest.setTitle("blaa");
+        updateTaskRequest.setDescription("dba");
+        // edit to user not found exception
+        assertThrows(TaskNotFoundException.class, ()->taskService.updateTask(updateTaskRequest));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void assignTaskTest() {
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
+        assignTaskRequest.setUserId(100L);
+        assignTaskRequest.setTaskId(300L);
+        AssignTaskResponse assignTaskResponse = taskService.assignTask(assignTaskRequest);
+
+        assertThat(assignTaskResponse).isNotNull();
+        assertThat(assignTaskResponse.getTaskId()).isEqualTo(300L);
+        assertThat(assignTaskResponse.getUserId()).isEqualTo(100L);
+    }
+
+    @Test
+    @Sql(scripts ={"/database/data.sql"})
+    public void assignNonExistentTaskToUser_ThrowsExceptionTest() {
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
+        assignTaskRequest.setTaskId(1500L);
+        assignTaskRequest.setUserId(100L);
+
+        assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void assignTaskToNonExistentUser_ThrowsExceptionTest() {
+        AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
+        assignTaskRequest.setTaskId(300L);
+        assignTaskRequest.setUserId(1500L);
+        // edit to user not found Exception
+        assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
     public void viewTaskTest() {
         ViewTaskResponse viewTaskResponse = taskService.viewTask(300L);
 
@@ -72,11 +135,11 @@ public class TaskServiceTest {
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
-    public void viewAllProjectsTasksTest() {
-        List<ViewTaskResponse> viewAllProjectTasks = taskService.viewAllProjectTasks(200L);
+    public void viewAllProjectTasksTest() {
+        List<ViewTaskResponse> allProjectTasks = taskService.viewAllProjectTasks(200L);
 
-        assertThat(viewAllProjectTasks).isNotNull();
-        assertThat(viewAllProjectTasks.size()).isEqualTo(2);
+        assertThat(allProjectTasks).isNotNull();
+        assertThat(allProjectTasks.size()).isEqualTo(2);
     }
 
     @Test
@@ -88,13 +151,44 @@ public class TaskServiceTest {
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void viewAllUserTasksTest() {
+        List<ViewTaskResponse> allUserTasks = taskService.viewAllUserTasks(100L);
 
+        assertThat(allUserTasks).isNotNull();
+        assertThat(allUserTasks.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllNonExistentUserTasks_ThrowsExceptionTest() {
+        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasks(1500L));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllUserTasksInProjectTest() {
+        ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
+        viewAllUserTasksInProjectRequest.setUserId(100L);
+        viewAllUserTasksInProjectRequest.setProjectId(200L);
+        List<ViewTaskResponse> allTasksForUserInProject = taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest);
+
+        assertThat(allTasksForUserInProject).isNotNull();
+        assertThat(allTasksForUserInProject.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllUserTasksInNonExistentProjectT_ThrowsExceptionTest() {
+        ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
+        viewAllUserTasksInProjectRequest.setUserId(100L);
+        viewAllUserTasksInProjectRequest.setProjectId(1500L);
+
+        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest));
     }
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void deleteTaskTest() {
-        String message = taskService.deleteTask(303L);
+        String message = taskService.deleteTask(302L);
 
         assertThat(message).isNotNull();
         assertThat(message).contains("success");

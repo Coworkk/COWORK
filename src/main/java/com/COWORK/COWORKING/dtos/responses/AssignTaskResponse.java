@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class CreateTaskResponse {
+public class AssignTaskResponse {
     private Long taskId;
     private String message;
     @JsonSerialize(using = JsonSerializer.class)
     @JsonDeserialize(using = JsonDeserializer.class)
-    private LocalDateTime dateCreated;
-    private Long projectId;
+    private LocalDateTime dateUpdated;
+    private Long userId;
 
 }
