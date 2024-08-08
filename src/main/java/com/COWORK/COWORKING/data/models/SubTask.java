@@ -45,7 +45,6 @@ public class SubTask {
     @ManyToOne
     private Task task;
 
-
     @PrePersist
     public void setDateCreated() {
         this.dateCreated = now();

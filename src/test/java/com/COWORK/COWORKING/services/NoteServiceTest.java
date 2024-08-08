@@ -1,6 +1,7 @@
 package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllProjectNotesRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
 import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,12 +54,28 @@ public class NoteServiceTest {
         ViewNoteResponse viewNoteResponse = noteService.viewNote(500L);
 
         assertThat(viewNoteResponse).isNotNull();
+        //find what to map
     }
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void viewNonExistentNote_ThrowsExceptionTest() {
         assertThrows(NoteNotFoundException.class, ()->noteService.viewNote(1500L));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllProjectNotesTest() {
+        List<ViewNoteResponse> projectNotes = noteService.viewAllProjectNotes(200L);
+
+        assertThat(projectNotes).isNotNull();
+        assertThat(projectNotes.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewNonExistentProjectNotes_ThrowsExceptionTest() {
+        assertThrows(ProjectNotFoundException.class,()-> noteService.viewAllProjectNotes(1500L));
     }
 
     @Test

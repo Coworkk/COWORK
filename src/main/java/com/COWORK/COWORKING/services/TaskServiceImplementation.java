@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
@@ -54,6 +55,7 @@ public class TaskServiceImplementation implements TaskService{
         CreateTaskResponse createTaskResponse = modelMapper.map(task, CreateTaskResponse.class);
         createTaskResponse.setMessage("Task created successfully");
         System.out.println(createTaskResponse); // remove later
+        System.out.println(LocalDateTime.now().plusDays(15));
         return createTaskResponse;
     }
 

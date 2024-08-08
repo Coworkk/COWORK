@@ -6,7 +6,7 @@ truncate table notes cascade;
 
 insert into users(user_id, first_name, last_name, email) values
    (100, 'john', 'doe', 'johndoe@email.com'),
-   (102, 'jane', 'doe', 'janedoe@gmail.com');
+   (101, 'jane', 'doe', 'janedoe@gmail.com');
 
 insert into projects(project_id, name, description) values
     (200, 'Smart home automation', 'Develop an integrated smart home system'),

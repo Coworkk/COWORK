@@ -4,6 +4,7 @@ import com.COWORK.COWORKING.data.models.Note;
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.repositories.NoteRepository;
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllProjectNotesRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
 import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
@@ -12,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +49,7 @@ public class NoteServiceImplementation implements NoteService{
     public Note findNoteById(Long noteId){
         return noteRepository.findById(noteId)
                 .orElseThrow(()-> new NoteNotFoundException(
-                        String.format("Note with id %d not found",noteId)
+                        String.format("Note with id %d not found", noteId)
                 ));
     }
 
@@ -54,6 +57,14 @@ public class NoteServiceImplementation implements NoteService{
     public ViewNoteResponse viewNote(Long noteId) {
         Note note = findNoteById(noteId);
         return modelMapper.map(note, ViewNoteResponse.class);
+    }
+
+    @Override
+    public List<ViewNoteResponse> viewAllProjectNotes(Long projectId) {
+        projectService.findProjectById(projectId);
+        List<Note> notes = noteRepository.findNoteByProjectId(projectId);
+        return notes.stream()
+                .map(projectNote -> modelMapper.map(projectNote, ViewNoteResponse.class)).toList();
     }
 
     @Override

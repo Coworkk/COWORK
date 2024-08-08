@@ -1,9 +1,6 @@
 package com.COWORK.COWORKING.services;
 
-import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
@@ -181,6 +178,17 @@ public class TaskServiceTest {
         viewAllUserTasksInProjectRequest.setProjectId(1500L);
 
         assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest));
+    }
+
+    @Test
+    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllTasksInProjectByDueDateTest() {
+        ViewAllProjectTasksByDueDateRequest viewAllProjectTasksByDueDateRequest = new ViewAllProjectTasksByDueDateRequest();
+        viewAllProjectTasksByDueDateRequest.setProjectId(200L);
+//        viewAllProjectTasksByDueDateRequest.setDueDate();
+
+
+
     }
 
     @Test
