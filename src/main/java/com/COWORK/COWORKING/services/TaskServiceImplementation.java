@@ -74,7 +74,7 @@ public class TaskServiceImplementation implements TaskService{
     @Override
     public AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest) {
         Task task = findTaskById(assignTaskRequest.getTaskId());
-        User user = null; // validate user
+        User user = null; // Validate user exists
         task.setUser(user);
         AssignTaskResponse assignTaskResponse = modelMapper.map(user, AssignTaskResponse.class);
         assignTaskResponse.setMessage("User successfully assigned to task");
@@ -107,7 +107,7 @@ public class TaskServiceImplementation implements TaskService{
     @Override
     public List<ViewTaskResponse> viewAllUserTasksInProject(ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest) {
         projectService.findProjectById(viewAllUserTasksInProjectRequest.getProjectId());
-        //User user =
+        //Validate user
         List<Task> tasks = taskRepository.findTaskByUserIdAndProjectId(
                 viewAllUserTasksInProjectRequest.getUserId(), viewAllUserTasksInProjectRequest.getProjectId());
         return tasks.stream()

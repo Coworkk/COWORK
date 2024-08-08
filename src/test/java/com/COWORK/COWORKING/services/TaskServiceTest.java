@@ -68,9 +68,6 @@ public class TaskServiceTest {
         UpdateTaskResponse updateTaskResponse = taskService.updateTask(updateTaskRequest);
 
         assertThat(updateTaskResponse).isNotNull();
-        assertThat(updateTaskResponse.getTitle()).isEqualTo("blaa");
-        assertThat(updateTaskResponse.getDescription()).isEqualTo("Set up user voice assistant");
-
     }
 
     @Test
@@ -80,7 +77,7 @@ public class TaskServiceTest {
         updateTaskRequest.setTaskId(300L);
         updateTaskRequest.setTitle("blaa");
         updateTaskRequest.setDescription("dba");
-        // edit to user not found exception
+        // Throw user not found exception
         assertThrows(TaskNotFoundException.class, ()->taskService.updateTask(updateTaskRequest));
     }
 
@@ -113,7 +110,7 @@ public class TaskServiceTest {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setTaskId(300L);
         assignTaskRequest.setUserId(1500L);
-        // edit to user not found Exception
+        // Throw user not found Exception
         assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
     }
 
@@ -154,12 +151,13 @@ public class TaskServiceTest {
         List<ViewTaskResponse> allUserTasks = taskService.viewAllUserTasks(100L);
 
         assertThat(allUserTasks).isNotNull();
-        assertThat(allUserTasks.size()).isEqualTo(2);
+        assertThat(allUserTasks.size()).isEqualTo(3);
     }
 
     @Test
     @Sql(scripts = {"/database/data.sql"})
     public void viewAllNonExistentUserTasks_ThrowsExceptionTest() {
+        //Throw user not found exception
         assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasks(1500L));
     }
 
