@@ -29,6 +29,8 @@ public interface TaskService {
     List<ViewTaskResponse> viewAllUserTasks(Long userId);
 
     List<ViewTaskResponse> viewAllUserTasksInProject(ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest);
+    //view by user tasks due date
+    //view usertasksproject by due date
 
     String deleteTask(Long taskId);
 }

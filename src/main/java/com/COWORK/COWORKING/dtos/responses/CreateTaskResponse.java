@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 public class CreateTaskResponse {
     private Long taskId;
     private String message;
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
-    private LocalDateTime dateCreated;
+//    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonDeserialize(using = JsonDeserializer.class)
+//    private LocalDateTime dateCreated;
     private Long projectId;
 
 }

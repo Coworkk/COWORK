@@ -20,19 +20,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Sql(scripts ={"/database/data.sql"})
 public class TaskServiceTest {
 
     @Autowired
     private TaskService taskService;
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void createTaskTest() {
         CreateTaskRequest createTaskRequest = new CreateTaskRequest();
         createTaskRequest.setTitle("Design user interface");
         createTaskRequest.setDescription("Develop detailed wireframes and visual mockups for each app screen");
-        createTaskRequest.setStartDate(now());
-        createTaskRequest.setDueDate(now()); // change the dates later
+        createTaskRequest.setStartDate(now().plusDays(10));
+        createTaskRequest.setDueDate(now().plusDays(20));
         createTaskRequest.setProjectId(200L);
         createTaskRequest.setPriority(URGENT);
         CreateTaskResponse createTaskResponse = taskService.createTask(createTaskRequest);
@@ -43,13 +43,12 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void createTask_WithNonExistentProject_ThrowsExceptionTest() {
         CreateTaskRequest createTaskRequest = new CreateTaskRequest();
         createTaskRequest.setTitle("Integrate payment gateway");
         createTaskRequest.setDescription("Set up payment gateway to handle refunds, chargebacks, and transaction disputes");
-        createTaskRequest.setStartDate(now());
-        createTaskRequest.setDueDate(now()); // change the dates later
+        createTaskRequest.setStartDate(now().plusDays(10));
+        createTaskRequest.setDueDate(now().plusDays(20));
         createTaskRequest.setProjectId(1500L);
         createTaskRequest.setPriority(URGENT);
 
@@ -57,7 +56,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void updateTaskTest() {
         UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
         updateTaskRequest.setTaskId(300L);
@@ -68,7 +66,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void updateNonExistentTask_ThrowsExceptionTest() {
         UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
         updateTaskRequest.setTaskId(300L);
@@ -79,7 +76,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void assignTaskTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setUserId(100L);
@@ -92,7 +88,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts ={"/database/data.sql"})
     public void assignNonExistentTaskToUser_ThrowsExceptionTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setTaskId(1500L);
@@ -102,7 +97,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void assignTaskToNonExistentUser_ThrowsExceptionTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setTaskId(300L);
@@ -112,7 +106,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewTaskTest() {
         ViewTaskResponse viewTaskResponse = taskService.viewTask(300L);
 
@@ -122,13 +115,11 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewNonExistentTask_ThrowsExceptionTest() {
         assertThrows(TaskNotFoundException.class, ()->taskService.viewTask(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllProjectTasksTest() {
         List<ViewTaskResponse> allProjectTasks = taskService.viewAllProjectTasks(200L);
 
@@ -137,13 +128,11 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllNonExistentProjectTasks_ThrowsExceptionTest() {
         assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllProjectTasks(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllUserTasksTest() {
         List<ViewTaskResponse> allUserTasks = taskService.viewAllUserTasks(100L);
 
@@ -152,14 +141,12 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllNonExistentUserTasks_ThrowsExceptionTest() {
         //Throw user not found exception
         assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasks(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllUserTasksInProjectTest() {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
         viewAllUserTasksInProjectRequest.setUserId(100L);
@@ -171,7 +158,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllUserTasksInNonExistentProjectT_ThrowsExceptionTest() {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
         viewAllUserTasksInProjectRequest.setUserId(100L);
@@ -181,18 +167,14 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllTasksInProjectByDueDateTest() {
         ViewAllProjectTasksByDueDateRequest viewAllProjectTasksByDueDateRequest = new ViewAllProjectTasksByDueDateRequest();
         viewAllProjectTasksByDueDateRequest.setProjectId(200L);
 //        viewAllProjectTasksByDueDateRequest.setDueDate();
 
-
-
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void deleteTaskTest() {
         String message = taskService.deleteTask(302L);
 
@@ -201,7 +183,6 @@ public class TaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void deleteNonExistentTask_ThrowsExceptionTest() {
         assertThrows(TaskNotFoundException.class, ()->taskService.deleteTask(1500L));
     }

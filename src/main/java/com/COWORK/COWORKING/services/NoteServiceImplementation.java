@@ -4,7 +4,6 @@ import com.COWORK.COWORKING.data.models.Note;
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.repositories.NoteRepository;
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllProjectNotesRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
 import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
@@ -35,7 +34,7 @@ public class NoteServiceImplementation implements NoteService{
         Project project = projectService.findProjectById(attachNoteRequest.getProjectId());
         /* please validate the user*/
         Note note = Note.builder()
-                .description(attachNoteRequest.getDescription())
+                .content(attachNoteRequest.getContent())
                 .project(project)
                 .user(null)
                 .build();
@@ -65,6 +64,14 @@ public class NoteServiceImplementation implements NoteService{
         List<Note> notes = noteRepository.findNoteByProjectId(projectId);
         return notes.stream()
                 .map(projectNote -> modelMapper.map(projectNote, ViewNoteResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewNoteResponse> viewAllUserNotes(Long userId) {
+        //validate user
+        List<Note> notes = noteRepository.findNoteByUserId(userId);
+        return notes.stream()
+                .map(userNote -> modelMapper.map(userNote, ViewNoteResponse.class)).toList();
     }
 
     @Override

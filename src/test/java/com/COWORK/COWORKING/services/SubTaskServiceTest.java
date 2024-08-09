@@ -16,19 +16,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Sql(scripts = {"/database/data.sql"})
 public class SubTaskServiceTest {
 
     @Autowired
     private SubTaskService subTaskService;
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void createSubTaskTest() {
         CreateSubTaskRequest createSubTaskRequest = new CreateSubTaskRequest();
         createSubTaskRequest.setTitle("");
         createSubTaskRequest.setDescription("");
-        createSubTaskRequest.setStartDate(LocalDateTime.now());
-        createSubTaskRequest.setDueDate(LocalDateTime.now());
+        createSubTaskRequest.setStartDate(LocalDateTime.now().plusDays(10));
+        createSubTaskRequest.setDueDate(LocalDateTime.now().plusDays(20));
         createSubTaskRequest.setTaskId(300L);
         CreateSubTaskResponse createSubTaskResponse = subTaskService.createSubTask(createSubTaskRequest);
 
@@ -38,20 +38,18 @@ public class SubTaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void createSubTask_WithNonExistentTask_ThrowsExceptionTest() {
         CreateSubTaskRequest createSubTaskRequest = new CreateSubTaskRequest();
         createSubTaskRequest.setTitle("");
         createSubTaskRequest.setDescription("");
-        createSubTaskRequest.setStartDate(LocalDateTime.now());
-        createSubTaskRequest.setDueDate(LocalDateTime.now());
+        createSubTaskRequest.setStartDate(LocalDateTime.now().plusDays(10));
+        createSubTaskRequest.setDueDate(LocalDateTime.now().plusDays(20));
         createSubTaskRequest.setTaskId(1500L);
 
         assertThrows(TaskNotFoundException.class, ()->subTaskService.createSubTask(createSubTaskRequest));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewSubTaskTest() {
         ViewSubTaskResponse viewSubTaskResponse = subTaskService.viewSubTask(400L);
 
@@ -61,13 +59,11 @@ public class SubTaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewNonExistentSubTask_ThrowsExceptionTest() {
         assertThrows(SubTaskNotFoundException.class, ()->subTaskService.viewSubTask(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void deleteSubTaskTest() {
         String message = subTaskService.deleteSubTask(402L);
 
@@ -76,7 +72,6 @@ public class SubTaskServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void deleteNonExistentSubTask_ThrowsExceptionTest() {
         assertThrows(SubTaskNotFoundException.class, ()->subTaskService.deleteSubTask(1500L));
     }

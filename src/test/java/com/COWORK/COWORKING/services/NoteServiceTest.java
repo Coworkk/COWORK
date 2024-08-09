@@ -1,7 +1,6 @@
 package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllProjectNotesRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
 import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
@@ -18,16 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@Sql(scripts = {"/database/data.sql"})
 public class NoteServiceTest {
 
     @Autowired
     private NoteService noteService;
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void attachNoteTest() {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
-        attachNoteRequest.setDescription("");
+        attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(200L);
         //attachNoteRequest.setUserId(""); make sure you set user id
         AttachNoteResponse attachNoteResponse = noteService.attachNote(attachNoteRequest);
@@ -38,10 +37,9 @@ public class NoteServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void attachNoteToNonExistentProject_ThrowsExceptionTest() {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
-        attachNoteRequest.setDescription("");
+        attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(1500L);
         //attachNoteRequest.setUserId(""); make sure you set user id
 
@@ -49,7 +47,6 @@ public class NoteServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewNoteTest() {
         ViewNoteResponse viewNoteResponse = noteService.viewNote(500L);
 
@@ -58,13 +55,11 @@ public class NoteServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewNonExistentNote_ThrowsExceptionTest() {
         assertThrows(NoteNotFoundException.class, ()->noteService.viewNote(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewAllProjectNotesTest() {
         List<ViewNoteResponse> projectNotes = noteService.viewAllProjectNotes(200L);
 
@@ -73,13 +68,25 @@ public class NoteServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void viewNonExistentProjectNotes_ThrowsExceptionTest() {
         assertThrows(ProjectNotFoundException.class,()-> noteService.viewAllProjectNotes(1500L));
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
+    public void viewAllUserNotesTest() {
+        List<ViewNoteResponse> userNotes = noteService.viewAllUserNotes(100L);
+
+        assertThat(userNotes).isNotNull();
+        assertThat(userNotes.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void viewNonExistentUserNotes_ThrowsExceptionTest() {
+        assertThrows(ProjectNotFoundException.class, ()-> noteService.viewAllUserNotes(1500L));
+    }
+
+
+    @Test
     public void deleteNoteTest() {
         String message = noteService.deleteNote(502L);
 
@@ -88,7 +95,6 @@ public class NoteServiceTest {
     }
 
     @Test
-    @Sql(scripts = {"/database/data.sql"})
     public void deleteNonExistentNote_ThrowsExceptionTest() {
         assertThrows(NoteNotFoundException.class, ()->noteService.deleteNote(1500L));
     }

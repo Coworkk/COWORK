@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,21 +28,21 @@ public class SubTask {
     private Status status;
 
     @Setter(AccessLevel.NONE)
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dateCreated;
 
     @Setter(AccessLevel.NONE)
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dateUpdated;
 
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startDate;
 
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dueDate;
     @ManyToOne
     private Task task;

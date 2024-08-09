@@ -9,10 +9,13 @@ import java.util.List;
 
 public interface NoteService {
     AttachNoteResponse attachNote(AttachNoteRequest attachNoteRequest);
+    // update note
 
     ViewNoteResponse viewNote(Long noteId);
 
     List<ViewNoteResponse> viewAllProjectNotes(Long projectId);
+
+    List<ViewNoteResponse> viewAllUserNotes(Long userId);
 
     String deleteNote(Long noteId);
 }

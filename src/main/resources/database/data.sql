@@ -6,11 +6,12 @@ truncate table notes cascade;
 
 insert into users(user_id, first_name, last_name, email) values
    (100, 'john', 'doe', 'johndoe@email.com'),
-   (101, 'jane', 'doe', 'janedoe@gmail.com');
+   (101, 'jane', 'doe', 'janedoe@email.com');
 
 insert into projects(project_id, name, description) values
     (200, 'Smart home automation', 'Develop an integrated smart home system'),
-    (201, 'df', 'fdf');
+    (201, 'df', 'fdf'),
+    (202, 'dfdf', 'dfsdf');
 
 insert into tasks(task_id, project_project_id, user_user_id, title, description, priority, status) values
    (300, 200, 100, 'Develop voice control', 'Set up user voice assistant', 'HIGH', 'IN_PROGRESS'),
@@ -19,8 +20,9 @@ insert into tasks(task_id, project_project_id, user_user_id, title, description,
 
 insert into subtasks(sub_task_id, task_task_id) values
    (400, 300),
+   (401, 301),
    (402, 300);
 
-insert into notes(note_id, project_project_id) values
-   (500, 200),
-   (502, 200);
+insert into notes(note_id, project_project_id, user_user_id) values
+   (500, 200, 100),
+   (502, 200, 100);

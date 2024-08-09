@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AttachNoteRequest {
-    private String description;
+    private String content;
     private Long projectId;
     private Long userId;
 }

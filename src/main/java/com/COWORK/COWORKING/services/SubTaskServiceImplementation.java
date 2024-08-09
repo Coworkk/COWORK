@@ -1,5 +1,6 @@
 package com.COWORK.COWORKING.services;
 
+import com.COWORK.COWORKING.data.models.Status;
 import com.COWORK.COWORKING.data.models.SubTask;
 import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.data.repositories.SubTaskRepository;
@@ -12,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +36,7 @@ public class SubTaskServiceImplementation implements SubTaskService{
         SubTask subTask = SubTask.builder()
                 .title(createSubTaskRequest.getTitle())
                 .description(createSubTaskRequest.getDescription())
-                .status(createSubTaskRequest.getStatus())
+                .status(NOT_STARTED)
                 .startDate(createSubTaskRequest.getStartDate())
                 .dueDate(createSubTaskRequest.getDueDate())
                 .task(task)
