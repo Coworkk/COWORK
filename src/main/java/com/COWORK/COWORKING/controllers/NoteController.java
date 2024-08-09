@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/note")
@@ -23,6 +24,27 @@ public class NoteController {
                 .body(new ApiResponse(noteService.attachNote(attachNoteRequest), true));
     }
 
-    @GetMapping
-    public ResponseEntity<?> viewNote()
+    @GetMapping("/viewNote/{noteId}")
+    public ResponseEntity<?> viewNote(@PathVariable Long noteId) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(noteService.viewNote(noteId), true));
+    }
+
+    @GetMapping("/viewAllProjectNotes")
+    public ResponseEntity<?> viewProjectNotes(@RequestParam Long projectId) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(noteService.viewAllProjectNotes(projectId), true));
+    }
+
+    @GetMapping("/viewAllUserNotes")
+    public ResponseEntity<?> viewAllUserNotes(@RequestParam Long userId) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(noteService.viewAllUserNotes(userId), true));
+    }
+
+    @DeleteMapping("/deleteNote/{noteId}")
+    public ResponseEntity<?> deleteNote(@PathVariable Long noteId) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(noteService.viewNote(noteId), true));
+    }
 }
