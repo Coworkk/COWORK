@@ -2,6 +2,7 @@ package com.COWORK.COWORKING.controllers;
 
 import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,11 @@ public class TaskControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsBytes(createTaskRequest))
             ).andExpect(status().isCreated()).andDo(print());
+
+    }
+
+    @Test
+    public void updateTask() throws Exception {
 
     }
 

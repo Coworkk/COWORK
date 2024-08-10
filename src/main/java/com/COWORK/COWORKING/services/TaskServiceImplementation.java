@@ -4,10 +4,7 @@ import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.TaskRepository;
-import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
@@ -20,6 +17,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
@@ -45,8 +43,8 @@ public class TaskServiceImplementation implements TaskService{
                 .title(createTaskRequest.getTitle())
                 .description(createTaskRequest.getDescription())
                 .status(NOT_STARTED)
-                .startDate(createTaskRequest.getStartDate())
-                .dueDate(createTaskRequest.getDueDate())
+                .startDate(createTaskRequest.getStartDate().truncatedTo(ChronoUnit.SECONDS))
+                .dueDate(createTaskRequest.getDueDate().truncatedTo(ChronoUnit.SECONDS))
                 .priority(createTaskRequest.getPriority())
                 .project(project)
                 .build();
@@ -55,13 +53,25 @@ public class TaskServiceImplementation implements TaskService{
         CreateTaskResponse createTaskResponse = modelMapper.map(task, CreateTaskResponse.class);
         createTaskResponse.setMessage("Task created successfully");
         System.out.println(createTaskResponse); // remove later
-        System.out.println(LocalDateTime.now().plusDays(15));
         return createTaskResponse;
     }
 
     @Override
     public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) {
         Task task = findTaskById(updateTaskRequest.getTaskId());
+
+        /*
+        *     private Long taskId;
+    private String title;
+    private String description;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime startDate;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime dueDate;
+    private Priority priority;
+        *
+        *
+        * */
 
         return null;
     }
@@ -114,6 +124,24 @@ public class TaskServiceImplementation implements TaskService{
                 viewAllUserTasksInProjectRequest.getUserId(), viewAllUserTasksInProjectRequest.getProjectId());
         return tasks.stream()
                 .map(userTaskInProject -> modelMapper.map(userTaskInProject, ViewTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewTaskResponse> viewAllUserTasksByDueDate(ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest) {
+        //Validate user
+        List<Task> tasks = taskRepository.findTaskByUserIdAndDueDate(viewAllUserTasksByDueDateRequest.getUserId(),
+                viewAllUserTasksByDueDateRequest.getDueDate().truncatedTo(ChronoUnit.SECONDS));
+        return tasks.stream()
+                .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatus viewAllUserTasksByStatus) {
+        // Validate User
+
+        List<Task> tasks = taskRepository.findTaskByUserIdAndStatus(viewAllUserTasksByStatus.getUserId(), viewAllUserTasksByStatus.getStatus());
+        return tasks.stream()
+                .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
     }
 
     @Override

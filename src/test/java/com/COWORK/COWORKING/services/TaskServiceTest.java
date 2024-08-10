@@ -1,5 +1,6 @@
 package com.COWORK.COWORKING.services;
 
+import com.COWORK.COWORKING.data.models.Status;
 import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
@@ -12,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.COWORK.COWORKING.data.models.Priority.URGENT;
+import static com.COWORK.COWORKING.data.models.Status.COMPLETED;
+import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +46,7 @@ public class TaskServiceTest {
         assertNotNull(createTaskResponse);
         assertTrue(createTaskResponse.getMessage().contains("success"));
         assertThat(createTaskResponse.getProjectId()).isEqualTo(200L);
+        System.out.println(createTaskResponse);
     }
 
     @Test
@@ -58,8 +65,6 @@ public class TaskServiceTest {
     @Test
     public void updateTaskTest() {
         UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
-        updateTaskRequest.setTaskId(300L);
-        updateTaskRequest.setTitle("blaa");
         UpdateTaskResponse updateTaskResponse = taskService.updateTask(updateTaskRequest);
 
         assertThat(updateTaskResponse).isNotNull();
@@ -68,10 +73,7 @@ public class TaskServiceTest {
     @Test
     public void updateNonExistentTask_ThrowsExceptionTest() {
         UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
-        updateTaskRequest.setTaskId(300L);
-        updateTaskRequest.setTitle("blaa");
-        updateTaskRequest.setDescription("dba");
-        // Throw user not found exception
+
         assertThrows(TaskNotFoundException.class, ()->taskService.updateTask(updateTaskRequest));
     }
 
@@ -111,7 +113,7 @@ public class TaskServiceTest {
 
         assertThat(viewTaskResponse).isNotNull();
         assertThat(viewTaskResponse.getTaskId()).isEqualTo(300L);
-        //add and map project and user
+        System.out.println(viewTaskResponse);
     }
 
     @Test
@@ -158,7 +160,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void viewAllUserTasksInNonExistentProjectT_ThrowsExceptionTest() {
+    public void viewAllUserTasksInNonExistentProject_ThrowsExceptionTest() {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
         viewAllUserTasksInProjectRequest.setUserId(100L);
         viewAllUserTasksInProjectRequest.setProjectId(1500L);
@@ -167,11 +169,27 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void viewAllTasksInProjectByDueDateTest() {
-        ViewAllProjectTasksByDueDateRequest viewAllProjectTasksByDueDateRequest = new ViewAllProjectTasksByDueDateRequest();
-        viewAllProjectTasksByDueDateRequest.setProjectId(200L);
-//        viewAllProjectTasksByDueDateRequest.setDueDate();
+    public void viewAllUserTasksByDueDateTest() {
+        ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest = new ViewAllUserTasksByDueDateRequest();
+        viewAllUserTasksByDueDateRequest.setUserId(100L);
+        viewAllUserTasksByDueDateRequest.setDueDate(LocalDateTime.parse("2024-09-09 09:00:00",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).truncatedTo(ChronoUnit.SECONDS));
+        List<ViewTaskResponse> userProjectTasksByDueDate = taskService.viewAllUserTasksByDueDate(viewAllUserTasksByDueDateRequest);
 
+        assertThat(userProjectTasksByDueDate).isNotNull();
+        assertThat(userProjectTasksByDueDate.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void viewAllUserTasksByStatus() {
+        ViewAllUserTasksByStatus viewAllUserTasksByStatus = new ViewAllUserTasksByStatus();
+        viewAllUserTasksByStatus.setStatus(NOT_STARTED);
+        viewAllUserTasksByStatus.setUserId(100L);
+
+        List<ViewTaskResponse> userTasksByStatus = taskService.viewAllUserTasksByStatus(viewAllUserTasksByStatus);
+
+        assertThat(userTasksByStatus).isNotNull();
+        assertThat(userTasksByStatus.size()).isEqualTo(1);
     }
 
     @Test

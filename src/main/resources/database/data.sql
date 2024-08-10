@@ -13,10 +13,10 @@ insert into projects(project_id, name, description) values
     (201, 'df', 'fdf'),
     (202, 'dfdf', 'dfsdf');
 
-insert into tasks(task_id, project_project_id, user_user_id, title, description, priority, status) values
-   (300, 200, 100, 'Develop voice control', 'Set up user voice assistant', 'HIGH', 'IN_PROGRESS'),
-   (301, 200, 100, 'Create automation scenarios', 'Set pre automated routines', 'LOW', 'NOT_STARTED'),
-   (302, 201, 100, 'Conduct system testing', 'Test smart home system functionality', 'MEDIUM', 'IN_PROGRESS');
+insert into tasks(task_id, project_project_id, user_user_id, title, description, priority, status, start_date, due_date) values
+   (300, 200, 100, 'Develop voice control', 'Set up user voice assistant', 'HIGH', 'IN_PROGRESS', '2024-08-06 00:00:00', '2024-09-09 09:00:00'),
+   (301, 200, 100, 'Create automation scenarios', 'Set automated routines', 'LOW', 'NOT_STARTED', '2024-08-06 00:00:00', '2024-10-10 10:00:00'),
+   (302, 201, 100, 'Conduct system testing', 'Test home system functions', 'MEDIUM', 'IN_PROGRESS', '2024-08-06 00:00:00', '2024-11-11 11:00:00');
 
 insert into subtasks(sub_task_id, task_task_id) values
    (400, 300),

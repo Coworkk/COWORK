@@ -4,13 +4,16 @@ import com.COWORK.COWORKING.data.models.Priority;
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.models.Status;
 import com.COWORK.COWORKING.data.models.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@ToString
 @Setter
 @Getter
 public class ViewTaskResponse {
@@ -18,16 +21,17 @@ public class ViewTaskResponse {
     private String title;
     private String description;
     private Status status;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateCreated;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateUpdated;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dueDate;
     private User user;
     private Project project;
     private Priority priority;
+
 
 }

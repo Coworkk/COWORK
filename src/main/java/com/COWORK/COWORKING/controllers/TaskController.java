@@ -2,6 +2,7 @@ package com.COWORK.COWORKING.controllers;
 
 import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
 import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.TaskService;
@@ -23,6 +24,12 @@ public class TaskController {
     public ResponseEntity<?> createTask(@RequestBody CreateTaskRequest createTaskRequest) {
         return ResponseEntity.status(CREATED)
                 .body(new ApiResponse(taskService.createTask(createTaskRequest), true));
+    }
+
+    @PatchMapping("/updateTask")
+    public ResponseEntity<?> updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(taskService.updateTask(updateTaskRequest), true));
     }
 
     @PatchMapping("/assignTask")

@@ -8,7 +8,15 @@ public interface SubTaskService {
 
     CreateSubTaskResponse createSubTask(CreateSubTaskRequest createSubTaskRequest);
 
+    // update subtask
+
+    // find subtask
+
     ViewSubTaskResponse viewSubTask(Long subTaskId);
+
+    //view all task subtasks
+
+    // view all usersubtasks
 
     String deleteSubTask(Long subTaskId);
 }
