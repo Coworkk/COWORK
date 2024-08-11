@@ -1,10 +1,11 @@
 package com.COWORK.COWORKING.services;
 
-import com.COWORK.COWORKING.data.models.Status;
 import com.COWORK.COWORKING.data.models.SubTask;
 import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.data.repositories.SubTaskRepository;
 import com.COWORK.COWORKING.dtos.requests.CreateSubTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserSubTasksByStatusRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserTaskSubTasksRequest;
 import com.COWORK.COWORKING.dtos.responses.CreateSubTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewSubTaskResponse;
 import com.COWORK.COWORKING.exceptions.SubTaskNotFoundException;
@@ -13,6 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 
@@ -37,8 +41,8 @@ public class SubTaskServiceImplementation implements SubTaskService{
                 .title(createSubTaskRequest.getTitle())
                 .description(createSubTaskRequest.getDescription())
                 .status(NOT_STARTED)
-                .startDate(createSubTaskRequest.getStartDate())
-                .dueDate(createSubTaskRequest.getDueDate())
+                .startDate(createSubTaskRequest.getStartDate().truncatedTo(ChronoUnit.SECONDS))
+                .dueDate(createSubTaskRequest.getDueDate().truncatedTo(ChronoUnit.SECONDS))
                 .task(task)
                 .build();
 
@@ -48,6 +52,7 @@ public class SubTaskServiceImplementation implements SubTaskService{
         return createSubTaskResponse;
     }
 
+    @Override
     public SubTask findSubTaskById(Long subTaskId) {
         return subTaskRepository.findById(subTaskId)
                 .orElseThrow(()-> new SubTaskNotFoundException
@@ -61,9 +66,39 @@ public class SubTaskServiceImplementation implements SubTaskService{
     }
 
     @Override
+    public List<ViewSubTaskResponse> viewAllUserSubTasks(Long userId) {
+        //validate User
+
+        List<SubTask> subTasks = subTaskRepository.findAllUserSubTasks(userId);
+        return subTasks.stream()
+                .map(subTask -> modelMapper.map(subTask, ViewSubTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewSubTaskResponse> viewAllUserTaskSubTasks(ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest) {
+        // validate user
+
+        List<SubTask> subTasks = subTaskRepository.findAllUserTasksSubTasks(viewAllUserTaskSubTasksRequest.getUserId(),
+                viewAllUserTaskSubTasksRequest.getTaskId());
+        return subTasks.stream()
+                .map(subTask -> modelMapper.map(subTask, ViewSubTaskResponse.class)).toList();
+    }
+
+    @Override
+    public List<ViewSubTaskResponse> viewAllUserSubTasksByStatus(ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest) {
+        // validate user
+
+        List<SubTask> subTasks = subTaskRepository.findAllUserSubTasksByStatus(viewAllUserSubTasksByStatusRequest.getUserId(),
+                viewAllUserSubTasksByStatusRequest.getStatus());
+        return subTasks.stream()
+                .map(subTask -> modelMapper.map(subTask, ViewSubTaskResponse.class)).toList();
+    }
+
+    @Override
     public String deleteSubTask(Long subTaskId) {
         SubTask subTask = findSubTaskById(subTaskId);
         subTaskRepository.delete(subTask);
         return "Subtask deleted successfully";
     }
+
 }

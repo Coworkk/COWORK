@@ -30,4 +30,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ApiResponse(exception.getMessage(), false));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> allExceptionsHandler(Exception exception) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ApiResponse(exception.getMessage(), false));
+    }
 }

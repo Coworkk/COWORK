@@ -6,5 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ViewNoteResponse {
+    private Long noteId;
     private String content;
 }

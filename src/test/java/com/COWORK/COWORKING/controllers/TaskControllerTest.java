@@ -1,9 +1,7 @@
 package com.COWORK.COWORKING.controllers;
 
-import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.requests.*;
+import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import static com.COWORK.COWORKING.data.models.Priority.URGENT;
+import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 import static java.time.LocalDateTime.now;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -73,7 +77,7 @@ public class TaskControllerTest {
     public void viewTaskTest() throws Exception {
             mockMvc.perform(get("/api/v1/task/viewTask/300")
                     .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk()).andDo(print());
+            ).andExpect(status().isOk()).andDo(print());
     }
 
     @Test
@@ -99,6 +103,31 @@ public class TaskControllerTest {
         mockMvc.perform(get("/api/v1/task/viewAllUserTasksInProject")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(viewAllUserTasksInProjectRequest))
+        ).andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void viewAllUserTasksByDueDate() throws Exception {
+        ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest = new ViewAllUserTasksByDueDateRequest();
+        viewAllUserTasksByDueDateRequest.setUserId(100L);
+        viewAllUserTasksByDueDateRequest.setDueDate(LocalDateTime.parse("2024-09-09 09:00:00",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        mockMvc.perform(get("/api/v1/task/viewAllUserTasksByDueDate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(viewAllUserTasksByDueDateRequest))
+        ).andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void viewAllUserTasksByStatus() throws Exception {
+        ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest = new ViewAllUserTasksByStatusRequest();
+        viewAllUserTasksByStatusRequest.setStatus(NOT_STARTED);
+        viewAllUserTasksByStatusRequest.setUserId(100L);
+
+        mockMvc.perform(get("api/v1/task/viewAllUserTasksByStatus")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(viewAllUserTasksByStatusRequest))
         ).andExpect(status().isOk()).andDo(print());
     }
 

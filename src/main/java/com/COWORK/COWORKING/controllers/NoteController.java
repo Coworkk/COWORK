@@ -24,6 +24,12 @@ public class NoteController {
                 .body(new ApiResponse(noteService.attachNote(attachNoteRequest), true));
     }
 
+//    @PatchMapping("/updateNote")
+//    public ResponseEntity<?> updateNote(@RequestBody ) {
+//        return ResponseEntity.status(OK)
+//                .body(new ApiResponse(noteService.updateNote(), true));
+//    }
+
     @GetMapping("/viewNote/{noteId}")
     public ResponseEntity<?> viewNote(@PathVariable Long noteId) {
         return ResponseEntity.status(OK)

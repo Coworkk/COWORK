@@ -28,7 +28,7 @@ public class NoteServiceTest {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
         attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(200L);
-        //attachNoteRequest.setUserId(""); make sure you set user id
+        attachNoteRequest.setUserId(100L);
         AttachNoteResponse attachNoteResponse = noteService.attachNote(attachNoteRequest);
 
         assertThat(attachNoteResponse).isNotNull();
@@ -41,7 +41,7 @@ public class NoteServiceTest {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
         attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(1500L);
-        //attachNoteRequest.setUserId(""); make sure you set user id
+        attachNoteRequest.setUserId(100L);
 
         assertThrows(ProjectNotFoundException.class, ()->noteService.attachNote(attachNoteRequest));
     }
@@ -49,9 +49,8 @@ public class NoteServiceTest {
     @Test
     public void viewNoteTest() {
         ViewNoteResponse viewNoteResponse = noteService.viewNote(500L);
-
-        assertThat(viewNoteResponse).isNotNull();
         //find what to map
+        assertThat(viewNoteResponse).isNotNull();
     }
 
     @Test
@@ -82,6 +81,7 @@ public class NoteServiceTest {
 
     @Test
     public void viewNonExistentUserNotes_ThrowsExceptionTest() {
+        // throw usernotfound exception
         assertThrows(ProjectNotFoundException.class, ()-> noteService.viewAllUserNotes(1500L));
     }
 

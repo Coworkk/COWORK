@@ -19,6 +19,8 @@ public interface TaskService {
 
     AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest);
 
+    // UPDATE STATUS
+
     ViewTaskResponse viewTask(Long taskId);
 
     List<ViewTaskResponse> viewAllProjectTasks(Long projectId);
@@ -29,7 +31,7 @@ public interface TaskService {
 
     List<ViewTaskResponse> viewAllUserTasksByDueDate(ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest);
 
-    List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatus viewAllUserTasksByStatus);
+    List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest);
 
     String deleteTask(Long taskId);
 

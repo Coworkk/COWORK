@@ -1,9 +1,6 @@
 package com.COWORK.COWORKING.controllers;
 
-import com.COWORK.COWORKING.dtos.requests.AssignTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.CreateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.UpdateTaskRequest;
-import com.COWORK.COWORKING.dtos.requests.ViewAllUserTasksInProjectRequest;
+import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.TaskService;
 import lombok.AllArgsConstructor;
@@ -60,6 +57,18 @@ public class TaskController {
     public ResponseEntity<?> viewAllUserTasksInProject(@RequestBody ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest), true));
+    }
+
+    @GetMapping("/viewAllUserTasksByDueDate")
+    public ResponseEntity<?> viewAllUserTasksByDueDate(@RequestBody ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(taskService.viewAllUserTasksByDueDate(viewAllUserTasksByDueDateRequest), true));
+    }
+
+    @GetMapping("/viewAllUserTasksByStatus")
+    public ResponseEntity<?> viewAllUserTasksByStatus(@RequestBody ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest) {
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(taskService.viewAllUserTasksByStatus(viewAllUserTasksByStatusRequest), true));
     }
 
     @DeleteMapping("/deleteTask/{taskId}")

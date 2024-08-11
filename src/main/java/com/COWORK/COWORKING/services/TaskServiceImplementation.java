@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -136,10 +135,10 @@ public class TaskServiceImplementation implements TaskService{
     }
 
     @Override
-    public List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatus viewAllUserTasksByStatus) {
+    public List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest) {
         // Validate User
 
-        List<Task> tasks = taskRepository.findTaskByUserIdAndStatus(viewAllUserTasksByStatus.getUserId(), viewAllUserTasksByStatus.getStatus());
+        List<Task> tasks = taskRepository.findTaskByUserIdAndStatus(viewAllUserTasksByStatusRequest.getUserId(), viewAllUserTasksByStatusRequest.getStatus());
         return tasks.stream()
                 .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
     }

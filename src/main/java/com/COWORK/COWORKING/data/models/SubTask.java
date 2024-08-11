@@ -11,6 +11,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.EnumType.STRING;
 import static java.time.LocalDateTime.now;
 
 @Data
@@ -25,6 +26,7 @@ public class SubTask {
     private Long subTaskId;
     private String title;
     private String description;
+    @Enumerated(value = STRING)
     private Status status;
 
     @Setter(AccessLevel.NONE)

@@ -1,6 +1,5 @@
 package com.COWORK.COWORKING.services;
 
-import com.COWORK.COWORKING.data.models.Status;
 import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
@@ -19,7 +18,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.COWORK.COWORKING.data.models.Priority.URGENT;
-import static com.COWORK.COWORKING.data.models.Status.COMPLETED;
 import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -173,7 +171,7 @@ public class TaskServiceTest {
         ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest = new ViewAllUserTasksByDueDateRequest();
         viewAllUserTasksByDueDateRequest.setUserId(100L);
         viewAllUserTasksByDueDateRequest.setDueDate(LocalDateTime.parse("2024-09-09 09:00:00",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).truncatedTo(ChronoUnit.SECONDS));
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         List<ViewTaskResponse> userProjectTasksByDueDate = taskService.viewAllUserTasksByDueDate(viewAllUserTasksByDueDateRequest);
 
         assertThat(userProjectTasksByDueDate).isNotNull();
@@ -182,11 +180,11 @@ public class TaskServiceTest {
 
     @Test
     public void viewAllUserTasksByStatus() {
-        ViewAllUserTasksByStatus viewAllUserTasksByStatus = new ViewAllUserTasksByStatus();
-        viewAllUserTasksByStatus.setStatus(NOT_STARTED);
-        viewAllUserTasksByStatus.setUserId(100L);
+        ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest = new ViewAllUserTasksByStatusRequest();
+        viewAllUserTasksByStatusRequest.setStatus(NOT_STARTED);
+        viewAllUserTasksByStatusRequest.setUserId(100L);
 
-        List<ViewTaskResponse> userTasksByStatus = taskService.viewAllUserTasksByStatus(viewAllUserTasksByStatus);
+        List<ViewTaskResponse> userTasksByStatus = taskService.viewAllUserTasksByStatus(viewAllUserTasksByStatusRequest);
 
         assertThat(userTasksByStatus).isNotNull();
         assertThat(userTasksByStatus.size()).isEqualTo(1);

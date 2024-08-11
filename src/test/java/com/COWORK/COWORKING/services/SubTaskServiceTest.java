@@ -1,6 +1,8 @@
 package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.dtos.requests.CreateSubTaskRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserSubTasksByStatusRequest;
+import com.COWORK.COWORKING.dtos.requests.ViewAllUserTaskSubTasksRequest;
 import com.COWORK.COWORKING.dtos.responses.CreateSubTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewSubTaskResponse;
 import com.COWORK.COWORKING.exceptions.SubTaskNotFoundException;
@@ -11,9 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static com.COWORK.COWORKING.data.models.Status.COMPLETED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Sql(scripts = {"/database/data.sql"})
@@ -61,6 +66,36 @@ public class SubTaskServiceTest {
     @Test
     public void viewNonExistentSubTask_ThrowsExceptionTest() {
         assertThrows(SubTaskNotFoundException.class, ()->subTaskService.viewSubTask(1500L));
+    }
+
+    @Test
+    public void viewAllUserSubTasksTest() {
+        List<ViewSubTaskResponse> allUserSubTasks = subTaskService.viewAllUserSubTasks(100L);
+
+        assertThat(allUserSubTasks).isNotNull();
+        assertThat(allUserSubTasks.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void viewAllUserTaskSubTasksTest() {
+        ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest = new ViewAllUserTaskSubTasksRequest();
+        viewAllUserTaskSubTasksRequest.setUserId(100L);
+        viewAllUserTaskSubTasksRequest.setTaskId(300L);
+        List<ViewSubTaskResponse> allUserTasksSubTasks = subTaskService.viewAllUserTaskSubTasks(viewAllUserTaskSubTasksRequest);
+
+        assertThat(allUserTasksSubTasks).isNotNull();
+        assertThat(allUserTasksSubTasks.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void viewAllUserSubTasksByStatusTest() {
+        ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest = new ViewAllUserSubTasksByStatusRequest();
+        viewAllUserSubTasksByStatusRequest.setUserId(100L);
+        viewAllUserSubTasksByStatusRequest.setStatus(COMPLETED);
+        List<ViewSubTaskResponse> allUserSubTasks = subTaskService.viewAllUserSubTasksByStatus(viewAllUserSubTasksByStatusRequest);
+
+        assertThat(allUserSubTasks).isNotNull();
+        assertThat(allUserSubTasks.size()).isEqualTo(1);
     }
 
     @Test
