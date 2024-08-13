@@ -1,10 +1,8 @@
 package com.COWORK.COWORKING.services;
 
 
-import com.COWORK.COWORKING.dto.ResetPasswordResponse;
-import com.COWORK.COWORKING.dto.RoleResponse;
-import com.COWORK.COWORKING.dto.UserRequest;
-import com.COWORK.COWORKING.dto.UserResponse;
+import com.COWORK.COWORKING.dto.*;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
     UserResponse createUser(UserRequest userRequest);
@@ -16,4 +14,8 @@ public interface UserService {
     RoleResponse addARoleToProject(String roleName);
 
     ResetPasswordResponse resetPassword(String username);
+
+    ResponseEntity<?> logIn(LogInRequest logInRequest);
+
+    ResponseEntity<?> refreshToken(RefreshTokenRequest refreshTokenRequest);
 }

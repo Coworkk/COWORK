@@ -1,12 +1,12 @@
 package com.COWORK.COWORKING.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResetPasswordResponse {
     private String message;
 }
