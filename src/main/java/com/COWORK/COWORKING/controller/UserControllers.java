@@ -12,9 +12,10 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping()
 public class UserControllers {
     private final UserServicesImpl userServices;
-  @PostMapping("app/register")
+  @PostMapping("cowork/register")
   public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest){
       try {
           return new ResponseEntity<>(userServices.createUser(userRequest), CREATED);
