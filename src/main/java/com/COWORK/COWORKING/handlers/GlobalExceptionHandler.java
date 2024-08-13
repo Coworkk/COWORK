@@ -1,9 +1,7 @@
 package com.COWORK.COWORKING.handlers;
 
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
-import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
-import com.COWORK.COWORKING.exceptions.SubTaskNotFoundException;
-import com.COWORK.COWORKING.exceptions.TaskNotFoundException;
+import com.COWORK.COWORKING.exceptions.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +25,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoteNotFoundException.class)
     public ResponseEntity<?> noteNotFoundHandler(NoteNotFoundException exception) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ApiResponse(exception.getMessage(), false));
+    }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<?> projectNotFoundHandler(ProjectNotFoundException exception) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ApiResponse(exception.getMessage(), false));
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<?> commentNotFoundHandler(CommentNotFoundException exception) {
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ApiResponse(exception.getMessage(), false));
     }

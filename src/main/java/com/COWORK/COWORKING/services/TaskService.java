@@ -2,10 +2,7 @@ package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.dtos.requests.*;
-import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
+import com.COWORK.COWORKING.dtos.responses.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ public interface TaskService {
 
     AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest);
 
-    // UPDATE STATUS
+    //ChangeTaskStatusResponse changeTaskStatus(Long taskId);
 
     ViewTaskResponse viewTask(Long taskId);
 
@@ -34,5 +31,6 @@ public interface TaskService {
     List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest);
 
     String deleteTask(Long taskId);
+
 
 }

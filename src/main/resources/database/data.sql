@@ -25,4 +25,7 @@ insert into subtasks(sub_task_id, task_task_id, title, description, status, star
 insert into notes(note_id, project_project_id, user_user_id, content) values
    (500, 200, 100, 'GG'),
    (501, 200, 100, 'GG'),
-   (502, 201, 101, 'GG')
+   (502, 201, 101, 'GG');
+
+insert into comments(comment_id, task_task_id) values
+    (600, 300);

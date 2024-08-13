@@ -1,10 +1,7 @@
 package com.COWORK.COWORKING.services;
 
 import com.COWORK.COWORKING.dtos.requests.*;
-import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
-import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
+import com.COWORK.COWORKING.dtos.responses.*;
 import com.COWORK.COWORKING.exceptions.ProjectNotFoundException;
 import com.COWORK.COWORKING.exceptions.TaskNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -103,6 +100,15 @@ public class TaskServiceTest {
         assignTaskRequest.setUserId(1500L);
         // Throw user not found Exception
         assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
+    }
+
+    @Test
+    public void changeTaskStatusTest() {
+//        ChangeTaskStatusResponse changeTaskStatusResponse = taskService.changeTaskStatus(300L);
+//
+//        assertThat(changeTaskStatusResponse).isNotNull();
+
+
     }
 
     @Test
