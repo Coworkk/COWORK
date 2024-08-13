@@ -6,6 +6,7 @@ import com.COWORK.COWORKING.dtos.requests.ViewAllUserTaskSubTasksRequest;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.SubTaskService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/subtask")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SubTaskController {
 
     private final SubTaskService subTaskService;

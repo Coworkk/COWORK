@@ -4,6 +4,7 @@ import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.TaskService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/task")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;

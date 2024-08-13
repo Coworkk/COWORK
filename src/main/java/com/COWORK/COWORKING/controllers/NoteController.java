@@ -3,8 +3,7 @@ package com.COWORK.COWORKING.controllers;
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.NoteService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +12,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/note")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NoteController {
 
     private final NoteService noteService;
