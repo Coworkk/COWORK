@@ -12,13 +12,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/v1/note")
+@RequestMapping("/api/v1/cowork")
 @AllArgsConstructor
 public class NoteController {
 
     private final NoteService noteService;
 
-    @PostMapping("/attachNote")
+    @PostMapping("users/attachNote")
     public ResponseEntity<?> attachNote(@RequestBody AttachNoteRequest attachNoteRequest) {
         return ResponseEntity.status(CREATED)
                 .body(new ApiResponse(noteService.attachNote(attachNoteRequest), true));
@@ -36,19 +36,19 @@ public class NoteController {
                 .body(new ApiResponse(noteService.viewNote(noteId), true));
     }
 
-    @GetMapping("/viewAllProjectNotes")
+    @GetMapping("users/viewAllProjectNotes")
     public ResponseEntity<?> viewProjectNotes(@RequestParam Long projectId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(noteService.viewAllProjectNotes(projectId), true));
     }
 
-    @GetMapping("/viewAllUserNotes")
+    @GetMapping("users/viewAllUserNotes")
     public ResponseEntity<?> viewAllUserNotes(@RequestParam Long userId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(noteService.viewAllUserNotes(userId), true));
     }
 
-    @DeleteMapping("/deleteNote/{noteId}")
+    @DeleteMapping("users/deleteNote/{noteId}")
     public ResponseEntity<?> deleteNote(@PathVariable Long noteId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(noteService.viewNote(noteId), true));

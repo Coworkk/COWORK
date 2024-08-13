@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.dto;
+package com.COWORK.COWORKING.dtos.responses;
 
 import lombok.*;
 

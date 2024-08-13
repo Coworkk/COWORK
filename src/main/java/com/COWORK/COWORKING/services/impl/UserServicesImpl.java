@@ -1,7 +1,13 @@
 package com.COWORK.COWORKING.services.impl;
 
 
-import com.COWORK.COWORKING.dto.*;
+import com.COWORK.COWORKING.dtos.requests.LogInRequest;
+import com.COWORK.COWORKING.dtos.requests.RefreshTokenRequest;
+import com.COWORK.COWORKING.dtos.requests.RoleResponse;
+import com.COWORK.COWORKING.dtos.requests.UserRequest;
+import com.COWORK.COWORKING.dtos.responses.LogInResponse;
+import com.COWORK.COWORKING.dtos.responses.ResetPasswordResponse;
+import com.COWORK.COWORKING.dtos.responses.UserResponse;
 import com.COWORK.COWORKING.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

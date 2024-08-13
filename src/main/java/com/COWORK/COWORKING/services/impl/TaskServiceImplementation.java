@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.services;
+package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.models.Task;
@@ -10,6 +10,8 @@ import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.UpdateTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewTaskResponse;
 import com.COWORK.COWORKING.exceptions.TaskNotFoundException;
+import com.COWORK.COWORKING.services.ProjectService;
+import com.COWORK.COWORKING.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImplementation implements TaskService{
+public class TaskServiceImplementation implements TaskService {
 
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;

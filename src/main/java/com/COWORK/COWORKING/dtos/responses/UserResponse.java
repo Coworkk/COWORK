@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.dto;
+package com.COWORK.COWORKING.dtos.responses;
 
 import lombok.*;
 
@@ -7,10 +7,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequest {
+public class UserResponse {
     private String username;
-    private String password;
+    private String id;
     private String firstName;
     private String lastName;
 }
-

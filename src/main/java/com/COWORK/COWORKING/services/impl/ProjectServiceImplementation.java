@@ -1,14 +1,15 @@
-package com.COWORK.COWORKING.services;
+package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.repositories.ProjectRepository;
 import com.COWORK.COWORKING.exceptions.ProjectNotFoundException;
+import com.COWORK.COWORKING.services.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProjectServiceImplementation implements ProjectService{
+public class ProjectServiceImplementation implements ProjectService {
 
     private final ProjectRepository projectRepository;
 

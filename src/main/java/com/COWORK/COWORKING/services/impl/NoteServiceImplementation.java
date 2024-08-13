@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.services;
+package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Note;
 import com.COWORK.COWORKING.data.models.Project;
@@ -7,6 +7,8 @@ import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
 import com.COWORK.COWORKING.exceptions.NoteNotFoundException;
+import com.COWORK.COWORKING.services.NoteService;
+import com.COWORK.COWORKING.services.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NoteServiceImplementation implements NoteService{
+public class NoteServiceImplementation implements NoteService {
 
     private final NoteRepository noteRepository;
     private final ModelMapper modelMapper;

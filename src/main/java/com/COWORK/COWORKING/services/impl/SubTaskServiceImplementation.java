@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.services;
+package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.SubTask;
 import com.COWORK.COWORKING.data.models.Task;
@@ -9,6 +9,8 @@ import com.COWORK.COWORKING.dtos.requests.ViewAllUserTaskSubTasksRequest;
 import com.COWORK.COWORKING.dtos.responses.CreateSubTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewSubTaskResponse;
 import com.COWORK.COWORKING.exceptions.SubTaskNotFoundException;
+import com.COWORK.COWORKING.services.SubTaskService;
+import com.COWORK.COWORKING.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ import static com.COWORK.COWORKING.data.models.Status.NOT_STARTED;
 
 @Service
 @RequiredArgsConstructor
-public class SubTaskServiceImplementation implements SubTaskService{
+public class SubTaskServiceImplementation implements SubTaskService {
 
     private final SubTaskRepository subTaskRepository;
     private final ModelMapper modelMapper;

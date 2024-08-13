@@ -1,21 +1,20 @@
-package com.COWORK.COWORKING.controller;
-import com.COWORK.COWORKING.dto.LogInRequest;
-import com.COWORK.COWORKING.dto.RefreshTokenRequest;
-import com.COWORK.COWORKING.dto.UserRequest;
+package com.COWORK.COWORKING.controllers;
+import com.COWORK.COWORKING.dtos.requests.LogInRequest;
+import com.COWORK.COWORKING.dtos.requests.RefreshTokenRequest;
+import com.COWORK.COWORKING.dtos.requests.UserRequest;
 import com.COWORK.COWORKING.services.impl.UserServicesImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping()
+@RequestMapping("/api/v1/cowork")
 public class UserControllers {
     private final UserServicesImpl userServices;
-  @PostMapping("cowork/register")
+  @PostMapping("users/register")
   public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest){
       try {
           return new ResponseEntity<>(userServices.createUser(userRequest), CREATED);
@@ -60,8 +59,4 @@ public class UserControllers {
  public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
      return new ResponseEntity<>(userServices.refreshToken(refreshTokenRequest),OK );
  }
-
-
- 
-
 }

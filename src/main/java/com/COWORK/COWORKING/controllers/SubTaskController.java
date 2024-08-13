@@ -13,13 +13,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/v1/subtask")
+@RequestMapping("/api/v1/cowork")
 @AllArgsConstructor
 public class SubTaskController {
 
     private final SubTaskService subTaskService;
 
-    @PostMapping("/createSubtask")
+    @PostMapping("users/createSubtask")
     public ResponseEntity<?> createSubTask(@RequestBody CreateSubTaskRequest createSubTaskRequest) {
         return ResponseEntity.status(CREATED)
                 .body(new ApiResponse(subTaskService.createSubTask(createSubTaskRequest), true));
@@ -31,31 +31,31 @@ public class SubTaskController {
 //                .body(new ApiResponse(subTaskService.updateSubTask(), true));
 //    }
 
-    @GetMapping("/viewSubTask/{subTaskId}")
+    @GetMapping("users/viewSubTask/{subTaskId}")
     public ResponseEntity<?> viewSubTask(@PathVariable Long subTaskId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.viewSubTask(subTaskId),true));
     }
 
-    @GetMapping("/viewAllUserSubTasks")
+    @GetMapping("users/viewAllUserSubTasks")
     public ResponseEntity<?> viewAllUserSubTasks(@RequestParam Long userId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.viewAllUserSubTasks(userId), true));
     }
 
-    @GetMapping("/viewAllUserTaskSubTasks")
+    @GetMapping("users/viewAllUserTaskSubTasks")
     public ResponseEntity<?> viewAllUserTaskSubTasks(@RequestBody ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.viewAllUserTaskSubTasks(viewAllUserTaskSubTasksRequest), true));
     }
 
-    @GetMapping("/viewAllUserSubTasksByStatus")
+    @GetMapping("users/viewAllUserSubTasksByStatus")
     public ResponseEntity<?> viewAllUserSubTasksByStatus(@RequestBody ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.viewAllUserSubTasksByStatus(viewAllUserSubTasksByStatusRequest), true));
     }
 
-    @DeleteMapping("/deleteSubTask{subTaskId}")
+    @DeleteMapping("users/deleteSubTask{subTaskId}")
     public ResponseEntity<?> deleteSubTask(@PathVariable Long subTaskId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.deleteSubTask(subTaskId), true));
