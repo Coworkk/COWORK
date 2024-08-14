@@ -47,7 +47,7 @@ public class CommentServiceImplementation  implements CommentService {
                 .build();
         comment=commentRepository.save(comment);
         AddCommentResponse addCommentResponse = modelMapper.map(comment, AddCommentResponse.class);
-       // addCommentResponse.setCommenterId(user.getUserId());
+        addCommentResponse.setCommenterId(user.getUserId());
         addCommentResponse.setMessage("Comment added successfully");
         System.out.println(addCommentResponse);
         return addCommentResponse;
