@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql(scripts ={"/database/data.sql"})
 public class CommentControllerTest {
 
     @Autowired
@@ -32,13 +34,13 @@ public class CommentControllerTest {
     @Test
     public void addCommentTest() throws Exception {
         AddCommentRequest addCommentRequest = new AddCommentRequest();
-        addCommentRequest.setComment("fdfd");
+        addCommentRequest.setComment("comment");
         addCommentRequest.setTaskId(300L);
-        addCommentRequest.setUserId(100L);
-
-        mockMvc.perform(post("/api/v1/comment/addComment")
+        addCommentRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
+        mockMvc.perform(post("/api/v1/cowork/users/addComment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(addCommentRequest))
+                .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andDo(print());
     }
 
@@ -47,11 +49,10 @@ public class CommentControllerTest {
         EditCommentRequest editcommentRequest = new EditCommentRequest();
         editcommentRequest.setCommentId(600L);
         editcommentRequest.setComment("fdsf");
-
-        mockMvc.perform(patch("/api/v1/comment/editComment")
+        mockMvc.perform(patch("/api/v1/cowork/users/editComment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(editcommentRequest))
-        ).andExpect(status().isCreated()).andDo(print());
+        ).andExpect(status().isOk()).andDo(print());
     }
 
     @Test

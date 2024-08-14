@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -55,7 +56,7 @@ public class UserServicesImpl implements UserService {
         List<UserRepresentation> userRepresentations = usersResource.searchByUsername(userRequest.getUsername(), true);
         UserRepresentation appUser = userRepresentations.get(0);
         sendVerificationEmail(appUser.getId());
-        User user = User.builder().userId(appUser.getId()).password(appUser.getCredentials().get(0).getValue())
+        User user = User.builder().userId(appUser.getId()).password(userRequest.getPassword())
                 .firstName(appUser.getFirstName()).lastName(appUser.getLastName()).email(appUser.getUsername()).build();
         userRepository.save(user);
         return UserResponse.builder().firstName(appUser.getFirstName()).lastName(appUser.getLastName())
@@ -111,10 +112,7 @@ public class UserServicesImpl implements UserService {
             formData.add("grant_type", "password");
             formData.add("username", logInRequest.getUsername());
             formData.add("password", logInRequest.getPassword());
-            LogInResponse logInResponse = new LogInResponse();
             return sendAuthRequest(formData);
-
-
     }
     @Override
     public ResponseEntity<?> refreshToken(RefreshTokenRequest refreshTokenRequest) {

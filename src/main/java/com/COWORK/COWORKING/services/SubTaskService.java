@@ -29,7 +29,7 @@ public interface SubTaskService {
 
     //---view subtaskby status
 
-    List<ViewSubTaskResponse> viewAllUserSubTasks(Long userId);
+    List<ViewSubTaskResponse> viewAllUserSubTasks(String userId);
 
     List<ViewSubTaskResponse> viewAllUserTaskSubTasks(ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest);
 

@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public class AssignTaskResponse {
     private Long taskId;
     private String message;
-    private Long userId;
+    private String userId;
 
 }

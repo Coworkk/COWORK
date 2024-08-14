@@ -35,7 +35,7 @@ public class NoteControllerTest {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
         attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(200L);
-        attachNoteRequest.setUserId(100L);
+        attachNoteRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
 
         mockMvc.perform(post("/api/v1/note/attachNote")
                 .contentType(MediaType.APPLICATION_JSON)

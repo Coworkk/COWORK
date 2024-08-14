@@ -18,7 +18,7 @@ class UserAndProjectServicesImplTest {
     @Sql(scripts ={"/database/data.sql"})
     void addMemberToProject() {
         AddMemberToProjectRequest projectRequest = new AddMemberToProjectRequest();
-        projectRequest.setMemberId("");
+        projectRequest.setMemberId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         projectRequest.setProjectId(200L);
         AddMemberToProjectResponse response = userAndProjectServices.addMemberToProject(projectRequest);
         assertThat(response.getProjectUserRoleId()).isEqualTo(1L);
@@ -27,7 +27,7 @@ class UserAndProjectServicesImplTest {
     @Test
     void addSameMemberAgainToProject_ThrowsException() {
         AddMemberToProjectRequest projectRequest = new AddMemberToProjectRequest();
-        projectRequest.setMemberId("");
+        projectRequest.setMemberId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         projectRequest.setProjectId(200L);
         userAndProjectServices.addMemberToProject(projectRequest);
         assertThrows(RuntimeException.class, () -> userAndProjectServices.addMemberToProject(projectRequest));

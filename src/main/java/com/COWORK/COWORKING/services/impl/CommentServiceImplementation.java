@@ -2,7 +2,9 @@ package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Comment;
 import com.COWORK.COWORKING.data.models.Task;
+import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.CommentRepository;
+import com.COWORK.COWORKING.data.repositories.UserRepository;
 import com.COWORK.COWORKING.dtos.requests.AddCommentRequest;
 import com.COWORK.COWORKING.dtos.requests.EditCommentRequest;
 import com.COWORK.COWORKING.dtos.responses.AddCommentResponse;
@@ -26,23 +28,26 @@ public class CommentServiceImplementation  implements CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
     private TaskService taskService;
+    private final UserRepository userRepository;
 
     @Autowired
-    @Lazy
     private void setTaskService(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @Override
     public AddCommentResponse addComment(AddCommentRequest addCommentRequest) {
-        //validate user object
+        User user = userRepository.getUserByUserId(addCommentRequest.getUserId());
+        if(user==null)throw new RuntimeException("user not found");
         Task task = taskService.findTaskById(addCommentRequest.getTaskId());
         Comment comment = Comment.builder()
                 .comment(addCommentRequest.getComment())
                 .task(task)
+                .commenter(user)
                 .build();
-        commentRepository.save(comment);
+        comment=commentRepository.save(comment);
         AddCommentResponse addCommentResponse = modelMapper.map(comment, AddCommentResponse.class);
+       // addCommentResponse.setCommenterId(user.getUserId());
         addCommentResponse.setMessage("Comment added successfully");
         System.out.println(addCommentResponse);
         return addCommentResponse;
@@ -50,16 +55,13 @@ public class CommentServiceImplementation  implements CommentService {
 
     @Override
     public EditCommentResponse editComment(EditCommentRequest editcommentRequest) {
-        // validate user
         Comment comment = findCommentById(editcommentRequest.getCommentId());
-        System.out.println(comment);
         if (editcommentRequest.getComment() != null) {
             comment.setComment(editcommentRequest.getComment());
         }
-        commentRepository.save(comment);
+        comment =commentRepository.save(comment);
         EditCommentResponse editCommentResponse = modelMapper.map(comment, EditCommentResponse.class);
         editCommentResponse.setMessage("Comment edited successfully");
-        System.out.println(comment);
         return editCommentResponse;
     }
 

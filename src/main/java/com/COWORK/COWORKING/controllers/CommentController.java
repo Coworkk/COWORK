@@ -5,27 +5,33 @@ import com.COWORK.COWORKING.dtos.requests.AddCommentRequest;
 import com.COWORK.COWORKING.dtos.requests.EditCommentRequest;
 import com.COWORK.COWORKING.dtos.responses.ApiResponse;
 import com.COWORK.COWORKING.services.CommentService;
+import jakarta.ws.rs.Consumes;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("/api/v1/comment")
+@RequestMapping("/api/v1/cowork")
 @AllArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/addComment")
+    @PostMapping(value = "users/addComment",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addComment(@RequestBody AddCommentRequest addCommentRequest) {
-        return ResponseEntity.status(CREATED)
-                .body(new ApiResponse(commentService.addComment(addCommentRequest), true));
+      try {
+          return ResponseEntity.status(CREATED)
+                  .body(new ApiResponse(commentService.addComment(addCommentRequest), true));
+      }catch (Exception e){
+          return ResponseEntity.status(EXPECTATION_FAILED)
+                  .body(new ApiResponse("something went wrong ", false));
+      }
     }
 
-    @PatchMapping("/editComment")
+    @PatchMapping("users/editComment")
     public ResponseEntity<?> editComment(@RequestBody EditCommentRequest editCommentRequest) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(commentService.editComment(editCommentRequest), true));

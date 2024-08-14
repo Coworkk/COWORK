@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AttachNoteRequest {
     private String content;
     private Long projectId;
-    private Long userId;
+    private String userId;
 }

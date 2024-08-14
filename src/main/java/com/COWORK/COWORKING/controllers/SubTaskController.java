@@ -39,7 +39,7 @@ public class SubTaskController {
     }
 
     @GetMapping("users/viewAllUserSubTasks")
-    public ResponseEntity<?> viewAllUserSubTasks(@RequestParam Long userId) {
+    public ResponseEntity<?> viewAllUserSubTasks(@RequestParam String userId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.viewAllUserSubTasks(userId), true));
     }

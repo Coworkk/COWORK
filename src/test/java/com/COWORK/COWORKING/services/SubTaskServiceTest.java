@@ -36,7 +36,6 @@ public class SubTaskServiceTest {
         createSubTaskRequest.setDueDate(LocalDateTime.now().plusDays(20));
         createSubTaskRequest.setTaskId(300L);
         CreateSubTaskResponse createSubTaskResponse = subTaskService.createSubTask(createSubTaskRequest);
-
         assertThat(createSubTaskResponse).isNotNull();
         assertTrue(createSubTaskResponse.getMessage().contains("success"));
         assertThat(createSubTaskResponse.getTaskId()).isEqualTo(300L);
@@ -50,14 +49,12 @@ public class SubTaskServiceTest {
         createSubTaskRequest.setStartDate(LocalDateTime.now().plusDays(10));
         createSubTaskRequest.setDueDate(LocalDateTime.now().plusDays(20));
         createSubTaskRequest.setTaskId(1500L);
-
         assertThrows(TaskNotFoundException.class, ()->subTaskService.createSubTask(createSubTaskRequest));
     }
 
     @Test
     public void viewSubTaskTest() {
         ViewSubTaskResponse viewSubTaskResponse = subTaskService.viewSubTask(400L);
-
         assertThat(viewSubTaskResponse).isNotNull();
         assertThat(viewSubTaskResponse.getSubTaskId()).isEqualTo(400L);
         assertThat(viewSubTaskResponse.getTaskId()).isEqualTo(300L);
@@ -70,7 +67,7 @@ public class SubTaskServiceTest {
 
     @Test
     public void viewAllUserSubTasksTest() {
-        List<ViewSubTaskResponse> allUserSubTasks = subTaskService.viewAllUserSubTasks(100L);
+        List<ViewSubTaskResponse> allUserSubTasks = subTaskService.viewAllUserSubTasks("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
 
         assertThat(allUserSubTasks).isNotNull();
         assertThat(allUserSubTasks.size()).isEqualTo(3);
@@ -79,7 +76,7 @@ public class SubTaskServiceTest {
     @Test
     public void viewAllUserTaskSubTasksTest() {
         ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest = new ViewAllUserTaskSubTasksRequest();
-        viewAllUserTaskSubTasksRequest.setUserId(100L);
+        viewAllUserTaskSubTasksRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         viewAllUserTaskSubTasksRequest.setTaskId(300L);
         List<ViewSubTaskResponse> allUserTasksSubTasks = subTaskService.viewAllUserTaskSubTasks(viewAllUserTaskSubTasksRequest);
 
@@ -90,10 +87,9 @@ public class SubTaskServiceTest {
     @Test
     public void viewAllUserSubTasksByStatusTest() {
         ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest = new ViewAllUserSubTasksByStatusRequest();
-        viewAllUserSubTasksByStatusRequest.setUserId(100L);
+        viewAllUserSubTasksByStatusRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         viewAllUserSubTasksByStatusRequest.setStatus(COMPLETED);
         List<ViewSubTaskResponse> allUserSubTasks = subTaskService.viewAllUserSubTasksByStatus(viewAllUserSubTasksByStatusRequest);
-
         assertThat(allUserSubTasks).isNotNull();
         assertThat(allUserSubTasks.size()).isEqualTo(1);
     }
@@ -101,7 +97,6 @@ public class SubTaskServiceTest {
     @Test
     public void deleteSubTaskTest() {
         String message = subTaskService.deleteSubTask(402L);
-
         assertThat(message).isNotNull();
         assertTrue(message.contains("success"));
     }

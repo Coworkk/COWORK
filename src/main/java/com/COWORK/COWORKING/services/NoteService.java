@@ -15,7 +15,7 @@ public interface NoteService {
 
     List<ViewNoteResponse> viewAllProjectNotes(Long projectId);
 
-    List<ViewNoteResponse> viewAllUserNotes(Long userId);
+    List<ViewNoteResponse> viewAllUserNotes(String userId);
 
     String deleteNote(Long noteId);
 }

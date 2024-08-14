@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface SubTaskRepository extends JpaRepository<SubTask, Long> {
     @Query("SELECT s FROM SubTask s WHERE s.task.user.userId=:userId")
-    List<SubTask> findAllUserSubTasks(Long userId);
+    List<SubTask> findAllUserSubTasks(String userId);
 
     @Query("SELECT s FROM SubTask s WHERE s.task.taskId=:taskId AND s.task.user.userId=:userId")
-    List<SubTask> findAllUserTasksSubTasks(Long userId, Long taskId);
+    List<SubTask> findAllUserTasksSubTasks(String userId, Long taskId);
 
     @Query("SELECT s FROM SubTask s WHERE s.task.user.userId=:userId AND s.status=:status")
-    List<SubTask> findAllUserSubTasksByStatus(Long userId, Status status);
+    List<SubTask> findAllUserSubTasksByStatus(String userId, Status status);
 }

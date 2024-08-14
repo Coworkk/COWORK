@@ -6,6 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ViewAllUserTaskSubTasksRequest {
-    private Long userId;
+    private String userId;
     private Long taskId;
 }

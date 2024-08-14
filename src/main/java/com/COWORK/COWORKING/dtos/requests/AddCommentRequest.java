@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AddCommentRequest {
     private Long taskId;
     private String comment;
-    private Long UserId;
+    private String UserId;
 }

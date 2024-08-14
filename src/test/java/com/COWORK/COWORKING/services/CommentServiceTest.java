@@ -29,13 +29,11 @@ public class CommentServiceTest {
         AddCommentRequest addCommentRequest = new AddCommentRequest();
         addCommentRequest.setComment("fdfd");
         addCommentRequest.setTaskId(300L);
-        addCommentRequest.setUserId(100L);
+        addCommentRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         AddCommentResponse addCommentResponse = commentService.addComment(addCommentRequest);
-
         assertThat(addCommentResponse).isNotNull();
         assertTrue(addCommentResponse.getMessage().contains("success"));
-        //assertThat(addCommentResponse.getUserId()).isEqualTo(100L);
-
+        assertThat(addCommentResponse.getCommenterId()).isEqualTo("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
     }
 
     @Test
@@ -43,8 +41,7 @@ public class CommentServiceTest {
         AddCommentRequest addCommentRequest = new AddCommentRequest();
         addCommentRequest.setComment("fdfd");
         addCommentRequest.setTaskId(1500L);
-        addCommentRequest.setUserId(100L);
-
+        addCommentRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         assertThrows(TaskNotFoundException.class, ()->commentService.addComment(addCommentRequest));
     }
 

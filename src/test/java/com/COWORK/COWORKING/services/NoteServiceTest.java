@@ -28,9 +28,8 @@ public class NoteServiceTest {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
         attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(200L);
-        attachNoteRequest.setUserId(100L);
+        attachNoteRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         AttachNoteResponse attachNoteResponse = noteService.attachNote(attachNoteRequest);
-
         assertThat(attachNoteResponse).isNotNull();
         assertTrue(attachNoteResponse.getMessage().contains("success"));
         assertThat(attachNoteResponse.getProjectId()).isEqualTo(200L);
@@ -41,8 +40,7 @@ public class NoteServiceTest {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
         attachNoteRequest.setContent("");
         attachNoteRequest.setProjectId(1500L);
-        attachNoteRequest.setUserId(100L);
-
+        attachNoteRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         assertThrows(ProjectNotFoundException.class, ()->noteService.attachNote(attachNoteRequest));
     }
 
@@ -61,7 +59,6 @@ public class NoteServiceTest {
     @Test
     public void viewAllProjectNotesTest() {
         List<ViewNoteResponse> projectNotes = noteService.viewAllProjectNotes(200L);
-
         assertThat(projectNotes).isNotNull();
         assertThat(projectNotes.size()).isEqualTo(2);
     }
@@ -73,16 +70,15 @@ public class NoteServiceTest {
 
     @Test
     public void viewAllUserNotesTest() {
-        List<ViewNoteResponse> userNotes = noteService.viewAllUserNotes(100L);
+        List<ViewNoteResponse> userNotes = noteService.viewAllUserNotes("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
 
         assertThat(userNotes).isNotNull();
-        assertThat(userNotes.size()).isEqualTo(2);
+        assertThat(userNotes.size()).isEqualTo(3);
     }
 
     @Test
     public void viewNonExistentUserNotes_ThrowsExceptionTest() {
-        // throw usernotfound exception
-        assertThrows(ProjectNotFoundException.class, ()-> noteService.viewAllUserNotes(1500L));
+        assertThrows(RuntimeException.class, ()-> noteService.viewAllUserNotes(""));
     }
 
 

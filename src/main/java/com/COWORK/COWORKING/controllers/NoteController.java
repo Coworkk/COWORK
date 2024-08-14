@@ -29,7 +29,7 @@ public class NoteController {
 //                .body(new ApiResponse(noteService.updateNote(), true));
 //    }
 
-    @GetMapping("/viewNote/{noteId}")
+    @GetMapping("users/viewNote/{noteId}")
     public ResponseEntity<?> viewNote(@PathVariable Long noteId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(noteService.viewNote(noteId), true));
@@ -42,7 +42,7 @@ public class NoteController {
     }
 
     @GetMapping("users/viewAllUserNotes")
-    public ResponseEntity<?> viewAllUserNotes(@RequestParam Long userId) {
+    public ResponseEntity<?> viewAllUserNotes(@RequestParam String userId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(noteService.viewAllUserNotes(userId), true));
     }

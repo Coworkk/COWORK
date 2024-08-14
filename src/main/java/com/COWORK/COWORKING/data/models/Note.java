@@ -22,26 +22,22 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long noteId;
     private String content;
-
     @Setter(AccessLevel.NONE)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeAttached;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Project project;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
-
     @Setter(AccessLevel.NONE)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeUpdated;
-
     @PrePersist
     public void setTimeAttached() {
         timeAttached = LocalDateTime.now();
     }
-
     @PreUpdate
     public void setTimeUpdated() {
         timeUpdated = LocalDateTime.now();

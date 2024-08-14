@@ -67,7 +67,7 @@ public class SubTaskControllerTest {
     @Test
     public void viewAllUserTaskSubTasksTest() throws Exception {
         ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest = new ViewAllUserTaskSubTasksRequest();
-        viewAllUserTaskSubTasksRequest.setUserId(100L);
+        viewAllUserTaskSubTasksRequest.setUserId("");
         viewAllUserTaskSubTasksRequest.setTaskId(300L);
 
         mockMvc.perform(get("/api/v1/subtask/viewAllUserTaskSubTasks")
@@ -79,9 +79,8 @@ public class SubTaskControllerTest {
     @Test
     public void viewAllUserSubTasksByStatusTest() throws Exception {
         ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest = new ViewAllUserSubTasksByStatusRequest();
-        viewAllUserSubTasksByStatusRequest.setUserId(100L);
+        viewAllUserSubTasksByStatusRequest.setUserId("");
         viewAllUserSubTasksByStatusRequest.setStatus(COMPLETED);
-
         mockMvc.perform(get("/api/v1/subtask/viewAllUserSubTasksByStatus")
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(viewAllUserSubTasksByStatusRequest))

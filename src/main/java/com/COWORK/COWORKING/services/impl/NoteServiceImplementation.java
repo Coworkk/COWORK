@@ -2,7 +2,9 @@ package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Note;
 import com.COWORK.COWORKING.data.models.Project;
+import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.NoteRepository;
+import com.COWORK.COWORKING.data.repositories.UserRepository;
 import com.COWORK.COWORKING.dtos.requests.AttachNoteRequest;
 import com.COWORK.COWORKING.dtos.responses.AttachNoteResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewNoteResponse;
@@ -24,6 +26,7 @@ public class NoteServiceImplementation implements NoteService {
     private final NoteRepository noteRepository;
     private final ModelMapper modelMapper;
     private ProjectService projectService;
+    private final UserRepository userRepository;
 
     @Autowired
     @Lazy
@@ -34,13 +37,13 @@ public class NoteServiceImplementation implements NoteService {
     @Override
     public AttachNoteResponse attachNote(AttachNoteRequest attachNoteRequest) {
         Project project = projectService.findProjectById(attachNoteRequest.getProjectId());
-        /* please validate the user*/
+        User user  = userRepository.getUserByUserId(attachNoteRequest.getUserId());
+        if(user == null) throw new RuntimeException("user not found");
         Note note = Note.builder()
                 .content(attachNoteRequest.getContent())
                 .project(project)
-                .user(null)
+                .user(user)
                 .build();
-
         noteRepository.save(note);
         AttachNoteResponse attachNoteResponse = modelMapper.map(note, AttachNoteResponse.class);
         attachNoteResponse.setMessage("Note attached successfully");
@@ -69,8 +72,9 @@ public class NoteServiceImplementation implements NoteService {
     }
 
     @Override
-    public List<ViewNoteResponse> viewAllUserNotes(Long userId) {
-        //validate user
+    public List<ViewNoteResponse> viewAllUserNotes(String userId) {
+        User user = userRepository.getUserByUserId(userId);
+        if(user==null)throw new RuntimeException("user not found");
         List<Note> notes = noteRepository.findNoteByUserId(userId);
         return notes.stream()
                 .map(userNote -> modelMapper.map(userNote, ViewNoteResponse.class)).toList();

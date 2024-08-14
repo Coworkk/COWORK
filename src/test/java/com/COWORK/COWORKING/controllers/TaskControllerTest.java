@@ -64,7 +64,7 @@ public class TaskControllerTest {
     @Test
     public void assignTask() throws Exception {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
-        assignTaskRequest.setUserId(100L);
+        assignTaskRequest.setUserId("");
         assignTaskRequest.setTaskId(300L);
 
         mockMvc.perform(patch("/api/v1/task/assignTask")
@@ -97,7 +97,7 @@ public class TaskControllerTest {
     @Test
     public void viewAllUserTasksInProject() throws Exception {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
-        viewAllUserTasksInProjectRequest.setUserId(100L);
+        viewAllUserTasksInProjectRequest.setUserId("");
         viewAllUserTasksInProjectRequest.setProjectId(200L);
 
         mockMvc.perform(get("/api/v1/task/viewAllUserTasksInProject")
@@ -109,7 +109,7 @@ public class TaskControllerTest {
     @Test
     public void viewAllUserTasksByDueDate() throws Exception {
         ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest = new ViewAllUserTasksByDueDateRequest();
-        viewAllUserTasksByDueDateRequest.setUserId(100L);
+        viewAllUserTasksByDueDateRequest.setUserId("");
         viewAllUserTasksByDueDateRequest.setDueDate(LocalDateTime.parse("2024-09-09 09:00:00",
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
@@ -123,7 +123,7 @@ public class TaskControllerTest {
     public void viewAllUserTasksByStatus() throws Exception {
         ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest = new ViewAllUserTasksByStatusRequest();
         viewAllUserTasksByStatusRequest.setStatus(NOT_STARTED);
-        viewAllUserTasksByStatusRequest.setUserId(100L);
+        viewAllUserTasksByStatusRequest.setUserId("");
 
         mockMvc.perform(get("api/v1/task/viewAllUserTasksByStatus")
                 .contentType(MediaType.APPLICATION_JSON)

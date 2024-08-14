@@ -23,7 +23,7 @@ class ProjectUserRoleRepositoryTest {
     void findRoleByUserAndProjectId() {
         ProjectUserRole projectUserRole = new ProjectUserRole();
         projectUserRole.setProject(projectRepository.findById(200L).orElse(null));
-        projectUserRole.setUser(userRepository.findById("").orElse(null));
+        projectUserRole.setUser(userRepository.findById("f62f68e8-023f-4c67-9e87-7af2a111e5eb").orElse(null));
         projectUserRoleRepository.save(projectUserRole);
         assertThat(projectUserRoleRepository.findRoleByUserAndProjectId("",200L).get(0).getRole()).isNull();
         var PUR =projectUserRoleRepository.findRoleByUserAndProjectId("",200L);

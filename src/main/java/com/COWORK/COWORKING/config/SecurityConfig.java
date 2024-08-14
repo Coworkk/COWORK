@@ -22,6 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((authz) ->
                  authz.requestMatchers(GET, "/api/v1/cowork/users/**").permitAll().requestMatchers(POST, "/api/v1/cowork/users/**").permitAll().requestMatchers(PUT, "/api/v1/cowork/users/**").permitAll()
+                 .requestMatchers(PATCH, "/api/v1/cowork/users/**").permitAll()
                 .requestMatchers(GET, "/api/v1/cowork/admin/**").hasRole(ADMIN).requestMatchers(POST, "/api/v1/cowork/admin/**").hasRole(ADMIN).requestMatchers(PUT, "/api/v1/cowork/admin/**").hasRole(ADMIN)
                 .requestMatchers(GET, "/api/v1/cowork/user/**").hasRole(USER).requestMatchers(POST, "/api/v1/cowork/user/**").hasRole(USER).requestMatchers(USER, "/user/**").hasRole(USER)
                 .requestMatchers(POST,"/api/v1/cowork/app/**").hasAnyRole(USER,ADMIN).anyRequest().authenticated());

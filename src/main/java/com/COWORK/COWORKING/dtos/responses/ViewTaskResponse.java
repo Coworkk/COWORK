@@ -13,7 +13,6 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@ToString
 @Setter
 @Getter
 public class ViewTaskResponse {
