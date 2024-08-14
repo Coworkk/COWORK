@@ -23,8 +23,6 @@ public class Project {
     private Long projectId;
     private String name;
     private String description;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<User> users;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 }

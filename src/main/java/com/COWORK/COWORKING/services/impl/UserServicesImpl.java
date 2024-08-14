@@ -39,9 +39,11 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 public class UserServicesImpl implements UserService {
     @Value("${app.keycloak.realm}")
     private  String realm;
-
     private final Keycloak keycloak;
     private final RestTemplate restTemplate;
+
+
+
     @Override
     public UserResponse createUser(UserRequest userRequest) {
         UserRepresentation userRepresentation = getUserRepresentation(userRequest);
@@ -53,6 +55,9 @@ public class UserServicesImpl implements UserService {
         return UserResponse.builder().firstName(user.getFirstName()).lastName(user.getLastName())
         .id(user.getId()).username(user.getUsername()).build();
     }
+
+
+
 
     private UserRepresentation getUserRepresentation(UserRequest userRequest) {
         if(!getUserResources().search(userRequest.getUsername()).isEmpty()) {
@@ -71,11 +76,15 @@ public class UserServicesImpl implements UserService {
         return userRepresentation;
     }
 
+
+
     @Override
     public void sendVerificationEmail(String userId) {
         UsersResource usersResource = getUserResources();
         usersResource.get(userId).sendVerifyEmail();
     }
+
+
 
     @Override
     public ResetPasswordResponse resetPassword(String username){
@@ -86,6 +95,8 @@ public class UserServicesImpl implements UserService {
        resource.executeActionsEmail(List.of("UPDATE_PASSWORD"));
        return ResetPasswordResponse.builder().message("the link to reset your password has been sent to "+username).build();
     }
+
+
 
     @Override
     public ResponseEntity<?> logIn(LogInRequest logInRequest) {
@@ -107,6 +118,9 @@ public class UserServicesImpl implements UserService {
         formData.add("refresh_token", refreshTokenRequest.getRefreshToken());
         return  sendAuthRequest(formData);
     }
+
+
+
 
 
       private ResponseEntity<?> sendAuthRequest(MultiValueMap<String, String> formData) {
@@ -135,6 +149,7 @@ public class UserServicesImpl implements UserService {
     private ClientResource getClientResource() {
      return keycloak.realm(realm).clients().get(getClient().getId());
     }
+
     public RoleResponse addARoleToProject(String roleName) {
             RoleRepresentation representation =new RoleRepresentation();
             representation.setName(roleName);

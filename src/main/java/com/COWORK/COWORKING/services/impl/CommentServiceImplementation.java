@@ -1,4 +1,4 @@
-package com.COWORK.COWORKING.services;
+package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.data.models.Comment;
 import com.COWORK.COWORKING.data.models.Task;
@@ -9,6 +9,8 @@ import com.COWORK.COWORKING.dtos.responses.AddCommentResponse;
 import com.COWORK.COWORKING.dtos.responses.EditCommentResponse;
 import com.COWORK.COWORKING.dtos.responses.ViewCommentResponse;
 import com.COWORK.COWORKING.exceptions.CommentNotFoundException;
+import com.COWORK.COWORKING.services.CommentService;
+import com.COWORK.COWORKING.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CommentServiceImplementation  implements CommentService{
+public class CommentServiceImplementation  implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;

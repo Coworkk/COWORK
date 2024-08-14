@@ -16,8 +16,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String firstName;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Project> project;
     private String lastName;
     @Column(unique = true)
     private String email;
