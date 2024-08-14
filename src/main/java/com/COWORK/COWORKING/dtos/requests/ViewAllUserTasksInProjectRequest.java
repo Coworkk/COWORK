@@ -6,6 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ViewAllUserTasksInProjectRequest {
-    private Long userId;
+    private String userId;
     private Long projectId;
 }

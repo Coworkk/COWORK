@@ -9,5 +9,6 @@ import java.util.List;
 public interface ProjectUserRoleRepository extends JpaRepository<ProjectUserRole, Long> {
 
     @Query(" select project_role from ProjectUserRole project_role where project_role.user.userId = :userId and project_role.project.projectId = :projectId")
-    List<ProjectUserRole> findRoleByUserAndProjectId(Long userId, Long projectId);
+    List<ProjectUserRole> findRoleByUserAndProjectId(String userId, Long projectId);
+
 }

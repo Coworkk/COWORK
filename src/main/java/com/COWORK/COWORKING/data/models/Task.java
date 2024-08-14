@@ -11,6 +11,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static java.time.LocalDateTime.now;
 
 @Data
@@ -25,40 +26,32 @@ public class Task {
     private Long taskId;
     private String title;
     private String description;
-
     @Enumerated(value = STRING)
     private Status status;
-
     @Setter(AccessLevel.NONE)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dateCreated;
-
     @Setter(AccessLevel.NONE)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dateUpdated;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startDate;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dueDate;
-
-    @ManyToOne
+    @ManyToOne(fetch = LAZY , optional = false)
     private Project project;
     @ManyToOne
     private User user;
     @Enumerated(value = STRING)
     private Priority priority;
-
     @PrePersist
     public void setDateCreated() {
         this.dateCreated = now();
     }
-
     @PreUpdate
     public void setDateUpdated() {
         this.dateUpdated = now();

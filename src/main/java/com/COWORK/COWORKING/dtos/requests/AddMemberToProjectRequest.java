@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AddMemberToProjectRequest {
-    private Long memberId;
+    private String memberId;
     private Long projectId;
     private Long roleId;
 }

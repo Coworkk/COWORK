@@ -8,5 +8,5 @@ import lombok.Setter;
 @Getter
 public class ViewAllUserTasksByStatusRequest {
     private Status status;
-    private Long userId;
+    private String userId;
 }

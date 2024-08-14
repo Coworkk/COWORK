@@ -16,13 +16,11 @@ public interface TaskService {
 
     AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest);
 
-    //ChangeTaskStatusResponse changeTaskStatus(Long taskId);
-
     ViewTaskResponse viewTask(Long taskId);
 
     List<ViewTaskResponse> viewAllProjectTasks(Long projectId);
 
-    List<ViewTaskResponse> viewAllUserTasks(Long userId);
+    List<ViewTaskResponse> viewAllUserTasks(String userId);
 
     List<ViewTaskResponse> viewAllUserTasksInProject(ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest);
 

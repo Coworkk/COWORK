@@ -14,14 +14,14 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findTaskByProjectId(Long projectId);
 
     @Query("SELECT t from Task t WHERE t.user.userId=:userId")
-    List<Task> findTaskByUserId(Long userId);
+    List<Task> findTaskByUserId(String userId);
 
     @Query("SELECT t from Task t WHERE t.user.userId=:userId AND t.project.projectId=:projectId")
-    List<Task> findTaskByUserIdAndProjectId(Long userId, Long projectId);
+    List<Task> findTaskByUserIdAndProjectId(String userId, Long projectId);
 
     @Query("SELECT t FROM Task t WHERE t.user.userId=:userId AND t.dueDate=:dueDate")
-    List<Task> findTaskByUserIdAndDueDate(Long userId, LocalDateTime dueDate);
+    List<Task> findTaskByUserIdAndDueDate(String userId, LocalDateTime dueDate);
 
     @Query("SELECT t FROM Task t WHERE t.user.userId=:userId AND t.status=:status")
-    List<Task> findTaskByUserIdAndStatus(Long userId, Status status);
+    List<Task> findTaskByUserIdAndStatus(String userId, Status status);
 }

@@ -1,6 +1,7 @@
 package com.COWORK.COWORKING.dtos.requests;
 
 import com.COWORK.COWORKING.data.models.Priority;
+import com.COWORK.COWORKING.data.models.Status;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,4 +23,5 @@ public class UpdateTaskRequest {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dueDate;
     private Priority priority;
+    private Status status;
 }

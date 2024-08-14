@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 public class AddMemberToProjectResponse {
     private Long projectUserRoleId;
-    private Long memberId;
+    private String memberId;
     private Long projectId;
     private Long roleId;
 }

@@ -32,6 +32,4 @@ public class ViewTaskResponse {
     private User user;
     private Project project;
     private Priority priority;
-
-
 }

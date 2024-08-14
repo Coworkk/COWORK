@@ -1,5 +1,6 @@
 package com.COWORK.COWORKING.services.impl;
 
+import com.COWORK.COWORKING.data.models.ProjectUserRole;
 import com.COWORK.COWORKING.data.repositories.ProjectRepository;
 import com.COWORK.COWORKING.data.repositories.ProjectUserRoleRepository;
 import com.COWORK.COWORKING.data.repositories.RoleRepository;
@@ -20,6 +21,12 @@ public class UserAndProjectServicesImpl implements UserAndProjectServices {
     private ProjectUserRoleRepository projectUserRoleRepository;
     @Override
     public AddMemberToProjectResponse addMemberToProject(AddMemberToProjectRequest addMemberToProjectRequest) {
-
+        if(!projectUserRoleRepository.findRoleByUserAndProjectId(addMemberToProjectRequest.getMemberId(),addMemberToProjectRequest.getProjectId()).isEmpty())throw new RuntimeException("something went wrong");
+        ProjectUserRole projectUserRole = new ProjectUserRole();
+        projectUserRole.setProject(projectRepository.findById(addMemberToProjectRequest.getProjectId()).orElseThrow(()-> new RuntimeException("project does not exist")));
+        projectUserRole.setUser(userRepository.findById(addMemberToProjectRequest.getMemberId()).orElseThrow(()-> new RuntimeException("something went wrong")));
+        projectUserRole=projectUserRoleRepository.save(projectUserRole);
+        return AddMemberToProjectResponse.builder().projectUserRoleId(projectUserRole.getId())
+        .memberId(projectUserRole.getUser().getUserId()).projectId(projectUserRole.getProject().getProjectId()).build();
     }
 }

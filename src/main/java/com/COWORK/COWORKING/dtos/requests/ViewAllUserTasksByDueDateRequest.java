@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class ViewAllUserTasksByDueDateRequest {
-    private Long userId;
+    private String userId;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dueDate;
 }

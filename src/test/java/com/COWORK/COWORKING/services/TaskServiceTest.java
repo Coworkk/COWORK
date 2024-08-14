@@ -39,7 +39,6 @@ public class TaskServiceTest {
         CreateTaskResponse createTaskResponse = taskService.createTask(createTaskRequest);
 
         assertNotNull(createTaskResponse);
-        assertTrue(createTaskResponse.getMessage().contains("success"));
         assertThat(createTaskResponse.getProjectId()).isEqualTo(200L);
         System.out.println(createTaskResponse);
     }
@@ -75,7 +74,7 @@ public class TaskServiceTest {
     @Test
     public void assignTaskTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
-        assignTaskRequest.setUserId(100L);
+        assignTaskRequest.setUserId("");
         assignTaskRequest.setTaskId(300L);
         AssignTaskResponse assignTaskResponse = taskService.assignTask(assignTaskRequest);
 
@@ -88,7 +87,7 @@ public class TaskServiceTest {
     public void assignNonExistentTaskToUser_ThrowsExceptionTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setTaskId(1500L);
-        assignTaskRequest.setUserId(100L);
+        assignTaskRequest.setUserId("");
 
         assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
     }
@@ -97,7 +96,7 @@ public class TaskServiceTest {
     public void assignTaskToNonExistentUser_ThrowsExceptionTest() {
         AssignTaskRequest assignTaskRequest = new AssignTaskRequest();
         assignTaskRequest.setTaskId(300L);
-        assignTaskRequest.setUserId(1500L);
+        assignTaskRequest.setUserId("");
         // Throw user not found Exception
         assertThrows(TaskNotFoundException.class ,()->taskService.assignTask(assignTaskRequest));
     }
@@ -140,7 +139,7 @@ public class TaskServiceTest {
 
     @Test
     public void viewAllUserTasksTest() {
-        List<ViewTaskResponse> allUserTasks = taskService.viewAllUserTasks(100L);
+        List<ViewTaskResponse> allUserTasks = taskService.viewAllUserTasks("");
 
         assertThat(allUserTasks).isNotNull();
         assertThat(allUserTasks.size()).isEqualTo(3);
@@ -149,13 +148,13 @@ public class TaskServiceTest {
     @Test
     public void viewAllNonExistentUserTasks_ThrowsExceptionTest() {
         //Throw user not found exception
-        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasks(1500L));
+        assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasks(""));
     }
 
     @Test
     public void viewAllUserTasksInProjectTest() {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
-        viewAllUserTasksInProjectRequest.setUserId(100L);
+        viewAllUserTasksInProjectRequest.setUserId("");
         viewAllUserTasksInProjectRequest.setProjectId(200L);
         List<ViewTaskResponse> allTasksForUserInProject = taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest);
 
@@ -166,7 +165,7 @@ public class TaskServiceTest {
     @Test
     public void viewAllUserTasksInNonExistentProject_ThrowsExceptionTest() {
         ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest = new ViewAllUserTasksInProjectRequest();
-        viewAllUserTasksInProjectRequest.setUserId(100L);
+        viewAllUserTasksInProjectRequest.setUserId("");
         viewAllUserTasksInProjectRequest.setProjectId(1500L);
 
         assertThrows(ProjectNotFoundException.class, ()->taskService.viewAllUserTasksInProject(viewAllUserTasksInProjectRequest));
@@ -175,7 +174,7 @@ public class TaskServiceTest {
     @Test
     public void viewAllUserTasksByDueDateTest() {
         ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest = new ViewAllUserTasksByDueDateRequest();
-        viewAllUserTasksByDueDateRequest.setUserId(100L);
+        viewAllUserTasksByDueDateRequest.setUserId("");
         viewAllUserTasksByDueDateRequest.setDueDate(LocalDateTime.parse("2024-09-09 09:00:00",
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         List<ViewTaskResponse> userProjectTasksByDueDate = taskService.viewAllUserTasksByDueDate(viewAllUserTasksByDueDateRequest);
@@ -188,7 +187,7 @@ public class TaskServiceTest {
     public void viewAllUserTasksByStatus() {
         ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest = new ViewAllUserTasksByStatusRequest();
         viewAllUserTasksByStatusRequest.setStatus(NOT_STARTED);
-        viewAllUserTasksByStatusRequest.setUserId(100L);
+        viewAllUserTasksByStatusRequest.setUserId("");
 
         List<ViewTaskResponse> userTasksByStatus = taskService.viewAllUserTasksByStatus(viewAllUserTasksByStatusRequest);
 

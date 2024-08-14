@@ -4,6 +4,7 @@ import com.COWORK.COWORKING.data.models.Project;
 import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.TaskRepository;
+import com.COWORK.COWORKING.data.repositories.UserRepository;
 import com.COWORK.COWORKING.dtos.requests.*;
 import com.COWORK.COWORKING.dtos.responses.AssignTaskResponse;
 import com.COWORK.COWORKING.dtos.responses.CreateTaskResponse;
@@ -30,6 +31,7 @@ public class TaskServiceImplementation implements TaskService {
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
     private ProjectService projectService;
+    private final UserRepository userRepository;
 
     @Autowired
     @Lazy
@@ -40,6 +42,7 @@ public class TaskServiceImplementation implements TaskService {
     @Override
     public CreateTaskResponse createTask(CreateTaskRequest createTaskRequest) {
         Project project = projectService.findProjectById(createTaskRequest.getProjectId());
+        if(project==null)throw new RuntimeException("something went wrong");
         Task task = Task.builder()
                 .title(createTaskRequest.getTitle())
                 .description(createTaskRequest.getDescription())
@@ -49,32 +52,24 @@ public class TaskServiceImplementation implements TaskService {
                 .priority(createTaskRequest.getPriority())
                 .project(project)
                 .build();
-
         taskRepository.save(task);
-        CreateTaskResponse createTaskResponse = modelMapper.map(task, CreateTaskResponse.class);
-        createTaskResponse.setMessage("Task created successfully");
-        System.out.println(createTaskResponse); // remove later
-        return createTaskResponse;
+        return modelMapper.map(task, CreateTaskResponse.class);
     }
 
     @Override
     public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) {
         Task task = findTaskById(updateTaskRequest.getTaskId());
-
-        /*
-        *     private Long taskId;
-    private String title;
-    private String description;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime startDate;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime dueDate;
-    private Priority priority;
-        *
-        *
-        * */
-
-        return null;
+        task.setTitle(updateTaskRequest.getTitle());
+        task.setDescription(updateTaskRequest.getDescription());
+        task.setStartDate(updateTaskRequest.getStartDate().truncatedTo(ChronoUnit.MINUTES));
+        task.setDueDate(updateTaskRequest.getDueDate().truncatedTo(ChronoUnit.MINUTES));
+        task.setPriority(updateTaskRequest.getPriority());
+        task.setStatus(updateTaskRequest.getStatus());
+        task=taskRepository.save(task);
+        return UpdateTaskResponse.builder().priority(task.getPriority()).
+                taskId(task.getTaskId()).description(task.getDescription()).dueDate(task.getDueDate())
+                .title(task.getTitle()).status(task.getStatus()).title(task.getTitle()).startDate(task.getStartDate())
+                .build();
     }
 
     @Override
@@ -87,22 +82,20 @@ public class TaskServiceImplementation implements TaskService {
     @Override
     public AssignTaskResponse assignTask(AssignTaskRequest assignTaskRequest) {
         Task task = findTaskById(assignTaskRequest.getTaskId());
-        User user = null; // Validate user exists
+        User user = userRepository.getUserByUserId(assignTaskRequest.getUserId());
+        if(user==null)throw new RuntimeException("something went wrong");
         task.setUser(user);
-        AssignTaskResponse assignTaskResponse = modelMapper.map(user, AssignTaskResponse.class);
-        assignTaskResponse.setMessage("User successfully assigned to task");
+        AssignTaskResponse assignTaskResponse = modelMapper.map(assignTaskRequest, AssignTaskResponse.class);
+        assignTaskResponse.setMessage("task successfully assigned to "+user.getFirstName());
         return assignTaskResponse;
     }
 
-//    @Override
-//    public ChangeTaskStatusResponse changeTaskStatus(Long taskId) {
-//        return null;
-//    }
+
 
     @Override
     public ViewTaskResponse viewTask(Long taskId) {
         Task task = findTaskById(taskId);
-        System.out.println(task); //remove later
+        if(task==null)throw  new TaskNotFoundException("something went wrong");
         return modelMapper.map(task, ViewTaskResponse.class);
     }
 
@@ -113,19 +106,19 @@ public class TaskServiceImplementation implements TaskService {
         return tasks.stream()
                 .map(projectTask -> modelMapper.map(projectTask, ViewTaskResponse.class)).toList();
     }
-
     @Override
-    public List<ViewTaskResponse> viewAllUserTasks(Long userId) {
-        //validate User
+    public List<ViewTaskResponse> viewAllUserTasks(String userId) {
+        User user =userRepository.getUserByUserId(userId);
+        if(user==null)throw new RuntimeException("something went wrong");
         List<Task> tasks = taskRepository.findTaskByUserId(userId);
         return tasks.stream()
                 .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
     }
-
     @Override
     public List<ViewTaskResponse> viewAllUserTasksInProject(ViewAllUserTasksInProjectRequest viewAllUserTasksInProjectRequest) {
         projectService.findProjectById(viewAllUserTasksInProjectRequest.getProjectId());
-        //Validate user
+        User user = userRepository.getUserByUserId(viewAllUserTasksInProjectRequest.getUserId());
+        if(user==null)throw new RuntimeException("something went wrong");
         List<Task> tasks = taskRepository.findTaskByUserIdAndProjectId(
                 viewAllUserTasksInProjectRequest.getUserId(), viewAllUserTasksInProjectRequest.getProjectId());
         return tasks.stream()
@@ -134,17 +127,17 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     public List<ViewTaskResponse> viewAllUserTasksByDueDate(ViewAllUserTasksByDueDateRequest viewAllUserTasksByDueDateRequest) {
-        //Validate user
-        List<Task> tasks = taskRepository.findTaskByUserIdAndDueDate(viewAllUserTasksByDueDateRequest.getUserId(),
-                viewAllUserTasksByDueDateRequest.getDueDate().truncatedTo(ChronoUnit.SECONDS));
+        User user =userRepository.getUserByUserId(viewAllUserTasksByDueDateRequest.getUserId());
+        if(user == null) throw new RuntimeException("user not found");
+        List<Task> tasks = taskRepository.findTaskByUserIdAndDueDate(viewAllUserTasksByDueDateRequest.getUserId(),viewAllUserTasksByDueDateRequest.getDueDate().truncatedTo(ChronoUnit.MINUTES));
         return tasks.stream()
                 .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();
     }
 
     @Override
     public List<ViewTaskResponse> viewAllUserTasksByStatus(ViewAllUserTasksByStatusRequest viewAllUserTasksByStatusRequest) {
-        // Validate User
-
+        User user =userRepository.getUserByUserId(viewAllUserTasksByStatusRequest.getUserId());
+        if(user == null) throw new RuntimeException("user not found");
         List<Task> tasks = taskRepository.findTaskByUserIdAndStatus(viewAllUserTasksByStatusRequest.getUserId(), viewAllUserTasksByStatusRequest.getStatus());
         return tasks.stream()
                 .map(userTask -> modelMapper.map(userTask, ViewTaskResponse.class)).toList();

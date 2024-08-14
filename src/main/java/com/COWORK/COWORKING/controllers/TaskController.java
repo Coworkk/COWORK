@@ -49,7 +49,7 @@ public class TaskController {
     }
 
     @GetMapping("users/viewAllUserTasks")
-    public ResponseEntity<?> viewAllUserTasks(@RequestParam Long userId) {
+    public ResponseEntity<?> viewAllUserTasks(@RequestParam String userId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(taskService.viewAllUserTasks(userId), true));
     }

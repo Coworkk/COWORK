@@ -1,6 +1,8 @@
 package com.COWORK.COWORKING.services.impl;
 
 
+import com.COWORK.COWORKING.data.models.User;
+import com.COWORK.COWORKING.data.repositories.UserRepository;
 import com.COWORK.COWORKING.dtos.requests.LogInRequest;
 import com.COWORK.COWORKING.dtos.requests.RefreshTokenRequest;
 import com.COWORK.COWORKING.dtos.requests.RoleResponse;
@@ -41,6 +43,7 @@ public class UserServicesImpl implements UserService {
     private  String realm;
     private final Keycloak keycloak;
     private final RestTemplate restTemplate;
+    private final UserRepository userRepository;
 
 
 
@@ -50,10 +53,13 @@ public class UserServicesImpl implements UserService {
         UsersResource usersResource = getUserResources();
         getUserResources().create(userRepresentation);
         List<UserRepresentation> userRepresentations = usersResource.searchByUsername(userRequest.getUsername(), true);
-        UserRepresentation user = userRepresentations.get(0);
-        sendVerificationEmail(user.getId());
-        return UserResponse.builder().firstName(user.getFirstName()).lastName(user.getLastName())
-        .id(user.getId()).username(user.getUsername()).build();
+        UserRepresentation appUser = userRepresentations.get(0);
+        sendVerificationEmail(appUser.getId());
+        User user = User.builder().userId(appUser.getId()).password(appUser.getCredentials().get(0).getValue())
+                .firstName(appUser.getFirstName()).lastName(appUser.getLastName()).email(appUser.getUsername()).build();
+        userRepository.save(user);
+        return UserResponse.builder().firstName(appUser.getFirstName()).lastName(appUser.getLastName())
+        .id(appUser.getId()).username(appUser.getUsername()).build();
     }
 
 

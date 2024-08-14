@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 public class AssignTaskRequest {
     private Long taskId;
-    private Long userId;
+    private String userId;
 }
