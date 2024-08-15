@@ -15,7 +15,7 @@ public class AttachNoteResponse {
     private Long noteId;
     private String message;
     private Long projectId;
-    @JsonSerialize(using = JsonSerializer.class)
-    @JsonDeserialize(using = JsonDeserializer.class)
+//    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonDeserialize(using = JsonDeserializer.class)
     private LocalDateTime timeAttached;
 }

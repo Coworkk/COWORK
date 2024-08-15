@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,10 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Sql(scripts = {"/database/data.sql"})
 public class NoteControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
-
     private ObjectMapper objectMapper;
 
     @BeforeEach
@@ -33,15 +32,13 @@ public class NoteControllerTest {
     @Test
     public void attachNoteTest() throws Exception {
         AttachNoteRequest attachNoteRequest = new AttachNoteRequest();
-        attachNoteRequest.setContent("");
+        attachNoteRequest.setContent("draw the plans");
         attachNoteRequest.setProjectId(200L);
         attachNoteRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
-
-        mockMvc.perform(post("/api/v1/note/attachNote")
-                .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/cowork/users/attachNote")
+                .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(attachNoteRequest))
         ).andExpect(status().isCreated()).andDo(print());
-
     }
 
     @Test
@@ -51,29 +48,26 @@ public class NoteControllerTest {
 
     @Test
     public void viewNoteTest() throws Exception {
-        mockMvc.perform(get("/api/v1/note/viewNote/500")
-                .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(get("/api/v1/cowork/users/viewNote/500")
+                .contentType(APPLICATION_JSON)
         ).andExpect(status().isCreated()).andDo(print());
     }
 
     @Test
     public void viewProjectNotesTest() throws Exception {
-        mockMvc.perform(get("api/v1/note/viewAllProjectNotes?projectId=300")
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andDo(print());
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllProjectNotes?projectId=200")
+                .contentType(APPLICATION_JSON)
+        ).andExpect(status().isOk()).andDo(print());
     }
 
     @Test
     public void viewAllUserNotesTest() throws Exception {
-        mockMvc.perform(get("api/v1/note/viewAllUserNotes?userId=100")
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andDo(print());
+        mockMvc.perform(get("api/v1/note/viewAllUserNotes?userId=f62f68e8-023f-4c67-9e87-7af2a111e5eb")
+                .contentType(APPLICATION_JSON)).andExpect(status().isCreated()).andDo(print());
     }
 
     @Test
     public void deleteNoteTest() throws Exception {
         mockMvc.perform(delete("api/v1/note/deleteNote/502")
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andDo(print());
-    }
+                .contentType(APPLICATION_JSON)).andExpect(status().isCreated()).andDo(print());}
 }

@@ -162,7 +162,7 @@ public class UserServicesImpl implements UserService {
             representation.setName("app_"+roleName.toLowerCase());
             getRoleResources().create(representation);
             RoleRepresentation createdClientRole = getClientResource().roles().get(roleName).toRepresentation();
-            RoleRepresentation createdRealmRole = getRoleResources().get("app_"+roleName.toLowerCase()).toRepresentation();
+            getRoleResources().get("app_"+roleName.toLowerCase()).toRepresentation();
             getRoleResources().get("app_"+roleName.toLowerCase()).addComposites(Collections.singletonList(createdClientRole));
             return RoleResponse.builder().message("Role successfully created").build();
     }

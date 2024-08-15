@@ -20,17 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Sql(scripts ={"/database/data.sql"})
 public class CommentControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
-
     private ObjectMapper objectMapper;
-
     @BeforeEach
     public void setUp() {
         objectMapper = new ObjectMapper();
     }
-
     @Test
     public void addCommentTest() throws Exception {
         AddCommentRequest addCommentRequest = new AddCommentRequest();
@@ -43,7 +39,6 @@ public class CommentControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andDo(print());
     }
-
     @Test
     public void editCommentTest() throws Exception {
         EditCommentRequest editcommentRequest = new EditCommentRequest();
@@ -54,19 +49,16 @@ public class CommentControllerTest {
                 .content(objectMapper.writeValueAsBytes(editcommentRequest))
         ).andExpect(status().isOk()).andDo(print());
     }
-
     @Test
     public void viewAllTaskCommentsTest() throws Exception {
-        mockMvc.perform(get("/api/v1/comment/viewAllTaskComments?taskId=300")
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllTaskComments?taskId=300")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(print());
     }
-
     @Test
     public void deleteComment() throws Exception {
-        mockMvc.perform(delete("/api/v1/comment/deleteComment/601")
+        mockMvc.perform(delete("/api/v1/cowork/users/deleteComment/600")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(print());
     }
-
 }

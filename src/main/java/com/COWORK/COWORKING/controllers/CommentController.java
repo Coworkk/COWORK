@@ -37,16 +37,16 @@ public class CommentController {
                 .body(new ApiResponse(commentService.editComment(editCommentRequest), true));
     }
 
-    @GetMapping("/viewAllTaskComments")
+    @GetMapping("users/viewAllTaskComments")
     public ResponseEntity<?> viewAllTaskComments(@RequestParam Long taskId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(commentService.viewAllTaskComments(taskId), true));
     }
 
-    @DeleteMapping("/deleteComment/{commentId}")
+    @DeleteMapping("users/deleteComment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
-//        return ResponseEntity.status(OK)
-//                .body(new ApiResponse(commentService.deleteComment(commentId), true));
-        return null;
+        return ResponseEntity.status(OK)
+                .body(new ApiResponse(commentService.deleteComment(commentId), true));
     }
+
 }

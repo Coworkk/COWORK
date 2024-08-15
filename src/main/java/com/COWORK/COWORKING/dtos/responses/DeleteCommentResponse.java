@@ -4,6 +4,6 @@ import lombok.*;
 
 @Setter
 @Getter
-public class ViewCommentResponse {
-    private Long taskId;
+public class DeleteCommentResponse {
+private String comment;
 }

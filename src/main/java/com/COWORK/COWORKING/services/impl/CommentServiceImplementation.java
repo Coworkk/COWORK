@@ -5,6 +5,7 @@ import com.COWORK.COWORKING.data.models.Task;
 import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.CommentRepository;
 import com.COWORK.COWORKING.data.repositories.UserRepository;
+import com.COWORK.COWORKING.dtos.responses.DeleteCommentResponse;
 import com.COWORK.COWORKING.dtos.requests.AddCommentRequest;
 import com.COWORK.COWORKING.dtos.requests.EditCommentRequest;
 import com.COWORK.COWORKING.dtos.responses.AddCommentResponse;
@@ -16,7 +17,6 @@ import com.COWORK.COWORKING.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,5 +78,14 @@ public class CommentServiceImplementation  implements CommentService {
         List<Comment> taskComments = commentRepository.findCommentsByTaskId(taskId);
         return taskComments.stream()
                 .map(comment -> modelMapper.map(comment, ViewCommentResponse.class)).toList();
+    }
+
+    @Override
+    public DeleteCommentResponse deleteComment(Long commentId) {
+    Comment comment =  commentRepository.findById(commentId).orElseThrow(()-> new RuntimeException("something went  wrong"));
+         commentRepository.delete(comment);
+     DeleteCommentResponse deleteComment = new DeleteCommentResponse();
+     deleteComment.setComment(comment.getComment() + "successfully deleted");
+     return deleteComment;
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class NoteServiceImplementation implements NoteService {
                 .content(attachNoteRequest.getContent())
                 .project(project)
                 .user(user)
+                .timeAttached(LocalDateTime.now())
                 .build();
         noteRepository.save(note);
         AttachNoteResponse attachNoteResponse = modelMapper.map(note, AttachNoteResponse.class);

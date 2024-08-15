@@ -23,16 +23,16 @@ public class Note {
     private Long noteId;
     private String content;
     @Setter(AccessLevel.NONE)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeAttached;
     @ManyToOne(optional = false)
     private Project project;
     @ManyToOne(optional = false)
     private User user;
     @Setter(AccessLevel.NONE)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeUpdated;
     @PrePersist
     public void setTimeAttached() {
