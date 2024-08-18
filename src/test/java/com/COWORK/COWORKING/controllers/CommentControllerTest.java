@@ -29,7 +29,7 @@ public class CommentControllerTest {
     }
     @Test
     public void addCommentTest() throws Exception {
-        AddCommentRequest addCommentRequest = new AddCommentRequest();
+        AddCommentRequest addCommentRequest  = new AddCommentRequest();
         addCommentRequest.setComment("comment");
         addCommentRequest.setTaskId(300L);
         addCommentRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");

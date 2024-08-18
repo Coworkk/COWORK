@@ -56,7 +56,7 @@ public class SubTaskController {
                 .body(new ApiResponse(subTaskService.viewAllUserSubTasksByStatus(viewAllUserSubTasksByStatusRequest), true));
     }
 
-    @DeleteMapping("users/deleteSubTask{subTaskId}")
+    @DeleteMapping("users/deleteSubTask/{subTaskId}")
     public ResponseEntity<?> deleteSubTask(@PathVariable Long subTaskId) {
         return ResponseEntity.status(OK)
                 .body(new ApiResponse(subTaskService.deleteSubTask(subTaskId), true));

@@ -15,13 +15,13 @@ public class ViewSubTaskResponse {
     private Long subTaskId;
     private String title;
     private String description;
-    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonSerialize(using = JsonSerializer.class)
     private LocalDateTime dateCreated;
-    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonSerialize(using = JsonSerializer.class)
     private LocalDateTime dateUpdated;
-    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonSerialize(using = JsonSerializer.class)
     private LocalDateTime startDate;
-    @JsonSerialize(using = JsonSerializer.class)
+//    @JsonSerialize(using = JsonSerializer.class)
     private LocalDateTime dueDate;
     private Status status;
     private Long taskId; // edit this for frontend

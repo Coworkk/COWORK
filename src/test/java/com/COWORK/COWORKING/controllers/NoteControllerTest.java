@@ -50,7 +50,7 @@ public class NoteControllerTest {
     public void viewNoteTest() throws Exception {
         mockMvc.perform(get("/api/v1/cowork/users/viewNote/500")
                 .contentType(APPLICATION_JSON)
-        ).andExpect(status().isCreated()).andDo(print());
+        ).andExpect(status().is(200)).andDo(print());
     }
 
     @Test
@@ -62,12 +62,12 @@ public class NoteControllerTest {
 
     @Test
     public void viewAllUserNotesTest() throws Exception {
-        mockMvc.perform(get("api/v1/note/viewAllUserNotes?userId=f62f68e8-023f-4c67-9e87-7af2a111e5eb")
-                .contentType(APPLICATION_JSON)).andExpect(status().isCreated()).andDo(print());
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllUserNotes?userId=f62f68e8-023f-4c67-9e87-7af2a111e5eb")
+                .contentType(APPLICATION_JSON)).andExpect(status().isOk()).andDo(print());
     }
 
     @Test
     public void deleteNoteTest() throws Exception {
-        mockMvc.perform(delete("api/v1/note/deleteNote/502")
-                .contentType(APPLICATION_JSON)).andExpect(status().isCreated()).andDo(print());}
+        mockMvc.perform(delete("/api/v1/cowork/users/deleteNote/502")
+                .contentType(APPLICATION_JSON)).andExpect(status().isOk()).andDo(print());}
 }

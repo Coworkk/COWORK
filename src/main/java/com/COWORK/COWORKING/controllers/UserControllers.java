@@ -1,10 +1,13 @@
 package com.COWORK.COWORKING.controllers;
+import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.dtos.requests.LogInRequest;
 import com.COWORK.COWORKING.dtos.requests.RefreshTokenRequest;
 import com.COWORK.COWORKING.dtos.requests.UserRequest;
 import com.COWORK.COWORKING.services.impl.UserServicesImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
@@ -22,9 +25,9 @@ public class UserControllers {
           return new ResponseEntity<>(exception.getMessage(), EXPECTATION_FAILED);
       }
   }
-
+//    @AuthenticationPrincipal User user
  @PutMapping("/users/{id}/send-email")
- public ResponseEntity<?> sendEmail(@PathVariable String id){
+ public ResponseEntity<?> sendEmail(@PathVariable  String id){
       userServices.sendVerificationEmail(id);
        return ResponseEntity.ok().build();
  }

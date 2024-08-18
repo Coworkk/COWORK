@@ -35,6 +35,7 @@ public class NoteController {
                 .body(new ApiResponse(noteService.viewNote(noteId), true));
     }
 
+
     @GetMapping("users/viewAllProjectNotes")
     public ResponseEntity<?> viewProjectNotes(@RequestParam Long projectId) {
         return ResponseEntity.status(OK)
@@ -50,6 +51,6 @@ public class NoteController {
     @DeleteMapping("users/deleteNote/{noteId}")
     public ResponseEntity<?> deleteNote(@PathVariable Long noteId) {
         return ResponseEntity.status(OK)
-                .body(new ApiResponse(noteService.viewNote(noteId), true));
+                .body(new ApiResponse(noteService.deleteNote(noteId), true));
     }
 }

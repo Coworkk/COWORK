@@ -38,13 +38,12 @@ public class SubTaskControllerTest {
     @Test
     public void createSubTaskTest() throws Exception {
         CreateSubTaskRequest createSubTaskRequest = new CreateSubTaskRequest();
-        createSubTaskRequest.setTitle("");
-        createSubTaskRequest.setDescription("");
+        createSubTaskRequest.setTitle("title");
+        createSubTaskRequest.setDescription("description");
         createSubTaskRequest.setStartDate(LocalDateTime.now().plusDays(10));
         createSubTaskRequest.setDueDate(LocalDateTime.now().plusDays(20));
-        createSubTaskRequest.setTaskId(1500L);
-
-        mockMvc.perform(post("/api/v1/subtask/createSubtask")
+        createSubTaskRequest.setTaskId(300L);
+        mockMvc.perform(post("/api/v1/cowork/users/createSubtask")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(createSubTaskRequest))
         ).andExpect(status().isCreated()).andDo(print());
@@ -52,14 +51,14 @@ public class SubTaskControllerTest {
 
     @Test
     public void viewSubTaskTest() throws Exception {
-        mockMvc.perform(get("/api/v1/subtask/viewSubTask/400")
+        mockMvc.perform(get("/api/v1/cowork/users/viewSubTask/400")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(print());
     }
 
     @Test
     public void viewAllUserSubTasksTest() throws Exception {
-        mockMvc.perform(get("/api/v1/subtask/viewAllUserSubTasks?userId=100")
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllUserSubTasks?userId=f62f68e8-023f-4c67-9e87-7af2a111e5eb")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(print());
     }
@@ -70,7 +69,7 @@ public class SubTaskControllerTest {
         viewAllUserTaskSubTasksRequest.setUserId("");
         viewAllUserTaskSubTasksRequest.setTaskId(300L);
 
-        mockMvc.perform(get("/api/v1/subtask/viewAllUserTaskSubTasks")
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllUserTaskSubTasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(viewAllUserTaskSubTasksRequest))
         ).andExpect(status().isOk()).andDo(print());
@@ -81,7 +80,7 @@ public class SubTaskControllerTest {
         ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest = new ViewAllUserSubTasksByStatusRequest();
         viewAllUserSubTasksByStatusRequest.setUserId("");
         viewAllUserSubTasksByStatusRequest.setStatus(COMPLETED);
-        mockMvc.perform(get("/api/v1/subtask/viewAllUserSubTasksByStatus")
+        mockMvc.perform(get("/api/v1/cowork/users/viewAllUserSubTasksByStatus")
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(viewAllUserSubTasksByStatusRequest))
         ).andExpect(status().isOk()).andDo(print());
@@ -89,7 +88,7 @@ public class SubTaskControllerTest {
 
     @Test
     public void deleteTaskTest() throws Exception {
-        mockMvc.perform(delete("/api/v1/subtask/402")
+        mockMvc.perform(delete("/api/v1/cowork/users/deleteSubTask/402")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andDo(print());
     }
