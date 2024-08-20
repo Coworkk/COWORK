@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ProjectServicesImplTest {
@@ -26,6 +27,6 @@ class ProjectServicesImplTest {
         projectRequest.setDescription("description");
         projectRequest.setEndDate(LocalDateTime.now().plusDays(9));
         var response =projectServices.createProject(projectRequest);
-        assertThat();
+        assertThat(response.toString()).isNotNull();
     }
 }
