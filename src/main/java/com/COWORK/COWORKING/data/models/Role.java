@@ -11,7 +11,7 @@ import static jakarta.persistence.GenerationType.AUTO;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = AUTO)

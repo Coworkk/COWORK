@@ -48,8 +48,7 @@ public class TaskControllerTest {
         createTaskRequest.setDueDate(now().plusDays(20));
         createTaskRequest.setProjectId(200L);
         createTaskRequest.setPriority(URGENT);
-
-            mockMvc.perform(post("/api/v1/task/createTask")
+            mockMvc.perform(post("/api/v1/cowork/users/createTask")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsBytes(createTaskRequest))
             ).andExpect(status().isCreated()).andDo(print());

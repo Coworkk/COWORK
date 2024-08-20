@@ -1,6 +1,4 @@
 package com.COWORK.COWORKING.services.impl;
-
-
 import com.COWORK.COWORKING.data.models.User;
 import com.COWORK.COWORKING.data.repositories.UserRepository;
 import com.COWORK.COWORKING.dtos.requests.LogInRequest;
@@ -46,8 +44,6 @@ public class UserServicesImpl implements UserService {
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
 
-
-
     @Override
     public UserResponse createUser(UserRequest userRequest) {
         UserRepresentation userRepresentation = getUserRepresentation(userRequest);
@@ -62,9 +58,6 @@ public class UserServicesImpl implements UserService {
         return UserResponse.builder().firstName(appUser.getFirstName()).lastName(appUser.getLastName())
         .id(appUser.getId()).username(appUser.getUsername()).build();
     }
-
-
-
 
     private UserRepresentation getUserRepresentation(UserRequest userRequest) {
         if(!getUserResources().search(userRequest.getUsername()).isEmpty()) {
@@ -82,8 +75,6 @@ public class UserServicesImpl implements UserService {
         userRepresentation.setCredentials(List.of(credentialRepresentation));
         return userRepresentation;
     }
-
-
 
     @Override
     public void sendVerificationEmail(String userId) {
@@ -103,17 +94,16 @@ public class UserServicesImpl implements UserService {
        return ResetPasswordResponse.builder().message("the link to reset your password has been sent to "+username).build();
     }
 
-
-
     @Override
     public ResponseEntity<?> logIn(LogInRequest logInRequest) {
-            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-            formData.add("client_id", "COWORK");
-            formData.add("grant_type", "password");
-            formData.add("username", logInRequest.getUsername());
-            formData.add("password", logInRequest.getPassword());
-            return sendAuthRequest(formData);
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("client_id", "COWORK");
+        formData.add("grant_type", "password");
+        formData.add("username", logInRequest.getUsername());
+        formData.add("password", logInRequest.getPassword());
+        return sendAuthRequest(formData);
     }
+
     @Override
     public ResponseEntity<?> refreshToken(RefreshTokenRequest refreshTokenRequest) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -122,12 +112,7 @@ public class UserServicesImpl implements UserService {
         formData.add("refresh_token", refreshTokenRequest.getRefreshToken());
         return  sendAuthRequest(formData);
     }
-
-
-
-
-
-      private ResponseEntity<?> sendAuthRequest(MultiValueMap<String, String> formData) {
+    private ResponseEntity<?> sendAuthRequest(MultiValueMap<String, String> formData) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
@@ -136,9 +121,9 @@ public class UserServicesImpl implements UserService {
                 request,
                 Map.class
         );
-
         return ResponseEntity.ok(response.getBody());
     }
+
 
     @Override
     public RoleResponse assignRole(String userId, String roleName) {
@@ -147,12 +132,17 @@ public class UserServicesImpl implements UserService {
         usersResource.get(userId).roles().realmLevel().add(Collections.singletonList(representation));
         return RoleResponse.builder().message("role successfully assigned").build();
     }
+
+
     private ClientRepresentation getClient() {
         return keycloak.realm(realm).clients().findByClientId("COWORK").get(0);
     }
+
+
     private ClientResource getClientResource() {
      return keycloak.realm(realm).clients().get(getClient().getId());
     }
+
 
     public RoleResponse addARoleToProject(String roleName) {
             RoleRepresentation representation =new RoleRepresentation();
@@ -166,6 +156,7 @@ public class UserServicesImpl implements UserService {
             getRoleResources().get("app_"+roleName.toLowerCase()).addComposites(Collections.singletonList(createdClientRole));
             return RoleResponse.builder().message("Role successfully created").build();
     }
+
     private RolesResource getRoleResources(){return keycloak.realm(realm).roles();}
     private UsersResource getUserResources(){return keycloak.realm(realm).users();}
 

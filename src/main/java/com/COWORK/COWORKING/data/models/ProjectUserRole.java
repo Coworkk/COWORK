@@ -28,6 +28,6 @@ public class ProjectUserRole {
     @ManyToOne(fetch = LAZY , optional = false)
     private User user;
     @JoinColumn(name = "role_id")
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = EAGER)
     private Role role;
 }

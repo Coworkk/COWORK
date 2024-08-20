@@ -2,6 +2,7 @@ package com.COWORK.COWORKING.services.impl;
 
 import com.COWORK.COWORKING.dtos.requests.AddMemberToProjectRequest;
 import com.COWORK.COWORKING.dtos.responses.AddMemberToProjectResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Sql(scripts ={"/database/data.sql"})
+@Slf4j
 class UserAndProjectServicesImplTest {
     @Autowired
     private UserAndProjectServicesImpl userAndProjectServices;
@@ -32,4 +34,15 @@ class UserAndProjectServicesImplTest {
         userAndProjectServices.addMemberToProject(projectRequest);
         assertThrows(RuntimeException.class, () -> userAndProjectServices.addMemberToProject(projectRequest));
     }
+    @Test
+    void assignRoleToMemberInProject() {
+        AddMemberToProjectRequest projectRequest = new AddMemberToProjectRequest();
+        projectRequest.setMemberId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
+        projectRequest.setProjectId(200L);
+        userAndProjectServices.addMemberToProject(projectRequest);
+        var response =userAndProjectServices.assignRoleToMemberInProject(200L,"f62f68e8-023f-4c67-9e87-7af2a111e5eb","team_lead");
+        log.info("response --------> {}",response);
+    }
+
+
 }

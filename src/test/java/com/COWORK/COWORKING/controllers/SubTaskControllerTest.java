@@ -66,9 +66,8 @@ public class SubTaskControllerTest {
     @Test
     public void viewAllUserTaskSubTasksTest() throws Exception {
         ViewAllUserTaskSubTasksRequest viewAllUserTaskSubTasksRequest = new ViewAllUserTaskSubTasksRequest();
-        viewAllUserTaskSubTasksRequest.setUserId("");
+        viewAllUserTaskSubTasksRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         viewAllUserTaskSubTasksRequest.setTaskId(300L);
-
         mockMvc.perform(get("/api/v1/cowork/users/viewAllUserTaskSubTasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(viewAllUserTaskSubTasksRequest))
@@ -78,7 +77,7 @@ public class SubTaskControllerTest {
     @Test
     public void viewAllUserSubTasksByStatusTest() throws Exception {
         ViewAllUserSubTasksByStatusRequest viewAllUserSubTasksByStatusRequest = new ViewAllUserSubTasksByStatusRequest();
-        viewAllUserSubTasksByStatusRequest.setUserId("");
+        viewAllUserSubTasksByStatusRequest.setUserId("f62f68e8-023f-4c67-9e87-7af2a111e5eb");
         viewAllUserSubTasksByStatusRequest.setStatus(COMPLETED);
         mockMvc.perform(get("/api/v1/cowork/users/viewAllUserSubTasksByStatus")
                         .contentType(MediaType.APPLICATION_JSON)

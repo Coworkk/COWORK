@@ -3,7 +3,6 @@ truncate table tasks cascade;
 truncate table users cascade;
 truncate table subtasks cascade;
 truncate table notes cascade;
-truncate table Role cascade;
 
 insert into users(user_id, first_name, last_name, email) values
    ('f62f68e8-023f-4c67-9e87-7af2a111e5eb', 'john', 'doe', 'johndoe@email.com');
@@ -12,8 +11,7 @@ insert into projects(project_id, name, description) values
     (200, 'Smart home automation', 'Develop an integrated smart home system'),
     (201, 'df', 'fdf');
 
-insert into Role(id , role_name )values
-       (1,'ADMIN' );
+
 
 insert into tasks( task_id, project_project_id, user_user_id, title, description, priority, status, start_date, due_date) values
    (300, 200, 'f62f68e8-023f-4c67-9e87-7af2a111e5eb', 'Develop voice control', 'Set up user voice assistant', 'HIGH', 'IN_PROGRESS', '2024-08-06 00:00:00', '2024-09-09 09:00:00'),
